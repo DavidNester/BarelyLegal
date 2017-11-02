@@ -12,5 +12,5 @@ cd FinalProject
 git init
 git clone https://github.com/DavidNester/BarelyLegal.git
 cd BarelyLegal
-make init
+python3.6 -m install -r requirements.txt
 ```
