@@ -10,7 +10,7 @@ cd location/to/save/project/in/
 mkdir FinalProject
 cd FinalProject
 git init
-git clone https://github.com/DavidNester/BarelyLegal.git
-cd BarelyLegal
+git clone https://github.com/DavidNester/JobScraper.git
+cd JobScraper
 pip3 install -r requirements.txt
 ```
