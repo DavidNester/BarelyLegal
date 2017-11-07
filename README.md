@@ -19,5 +19,5 @@ To add changes
 ```
 git add .
 git commit -m "Name the changes in your commit"
-git -u push origin master
+git push origin your-branch-name
 ```
