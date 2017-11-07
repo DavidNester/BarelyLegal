@@ -14,3 +14,10 @@ git clone https://github.com/DavidNester/JobScraper.git
 cd JobScraper
 pip3 install -r requirements.txt
 ```
+
+To add changes
+```
+git add .
+git commit "Name the changes in your commit"
+git -u push origin master
+```
