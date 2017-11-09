@@ -1,16 +1,16 @@
 class URL:
-	time = float()
+	domain = str()
 	date = str()
 	keywords = dict()
 	visited = bool()
 	address = ""
 
-	def __init__(self, time = 0.0, date = "", keywords = {}, visited = False, address = ""):
-		self.time = time
+	def __init__(self, domain = "", date = "", keywords = {}, visited = False, address = ""):
+		self.domain = domain
 		self.date = date
 		self.keywords = keywords
 		self.visited = visited
 		self.address = address
 
 	def toString(self):
-		return [self.time, self.date, self.keywords, self.visited, self.address]
+		return [self.domain, self.date, self.keywords, self.visited, self.address]
