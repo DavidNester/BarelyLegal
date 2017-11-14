@@ -8,17 +8,33 @@ default termination conditions = time limit OR page limit reached OR out of page
 prompt user for termination conditions
 '''
 from url import *
+
+def checktermination(cond_num, actual_val, term_val):
+    '''return True if termination condition has been met, False otherwise'''
+    #print("1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs")
+    if cond_num == '1' or cond_num == '2' or cond_num == '4':
+        if actual_val >= term_val:
+            return False
+    elif cond_num == '3':
+        if actual_val == term_val:
+            # if to_visit list is empty lsit
+            return False
+    
+    return True
+        
 to_visit = []
 seeds = []
 seed = input("Enter starting URL: ")
 while seed != '':
-    if len(seed) > 5 and ('.com' in seed or '.edu' in seed or '.gov' in seed or '.net' in seed or '.org' in seed):
+    
+
+    if len(seed) >= 5 and ('.com' in seed or '.edu' in seed or '.gov' in seed or '.net' in seed or '.org' in seed):
         # valid address
         seeds.append(seed)
-        seed = input("Enter  another URL or enter for next menu: ")
+        seed = input("Enter another URL or enter for next menu: ")
     else:
         # invalid address ending
-        seed = input("Enter URL that ends with .com, .edu, .gov, .net, .org or enter for next menu: ")
+        seed = input("Enter URL that contains .com, .edu, .gov, .net, .org or enter for next menu: ")
 
 
 # get keyword(s)
@@ -39,37 +55,58 @@ while multiple:
 
         keywords[keyword] = 0
 
-######### create all URL objects here #########
-
-#what do i need to initialize date and domain to?        
+# create all URL objects here
 for i in range(len(seeds)):
     i = URL(address=seeds[i],keywords=keywords)
     to_visit.append(i)
 
-print(to_visit)
-for i in to_visit:
-    print(i.toString())
+##print(to_visit)
+##for i in to_visit:
+##    print(i.toString())
 
     
-###############################################
-
-
+# termination conditions 
 print(("\nChoose from the following termination conditions:"))
 print("1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs")
 termCond = False
 while not termCond:
-    termination = input("Enter the number cooresponding to your termination choice: ") # or d for default?
-    if termination == '1':
+    choice = input("Enter the number cooresponding to your termination choice: ") # or d for default?
+    if choice == '1':
         # time limit
         termCond = True
-    elif termination == '2':
+        validCond = False
+        while not validCond:
+            try:
+                timelimit = int(input("Enter the number of seconds you want the program to run for: "))
+                validCond = True
+            except:
+                print("Error: Please enter a valid number of seconds")
+        termination = ['1',timelimit]
+    elif choice == '2':
         # number of pages
         termCond = True
-    elif termination == '3':
+        validCond = False
+        while not validCond:
+            try:
+                pageslimit = int(input("Enter the number of pages you want the program to visit: "))
+                validCond = True
+            except:
+                print("Error: Please enter a valid number of pages")
+        termination = ['2',pageslimit]
+    elif choice == '3':
         # until list is out of pages
         termCond = True
-    elif termination == '4':
+        termination = ['2',to_visit]
+    elif choice == '4':
         # number of jobs
         termCond = True
+        validCond = False
+        while not validCond:
+            try:
+                jobslimit = int(input("Enter the number of jobs you want the program to collect: "))
+                validCond = True
+            except:
+                print("Error: Please enter a valid number of jobs")
+        termination = ['4',jobslimit]
     else:
         print("Error: Insert valid termination condition")
