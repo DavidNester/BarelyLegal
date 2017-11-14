@@ -7,59 +7,36 @@ default termination conditions = time limit OR page limit reached OR out of page
 
 prompt user for termination conditions
 '''
-<<<<<<< HEAD
 from url import *
 to_visit = []
 seeds = []
 seed = input("Enter starting URL: ")
 while seed != '':
-    if len(seed) > 5 and not seed.startswith('.') and ('.com' in seed or '.edu' in seed or '.gov' in seed or '.net' in seed or '.org' in seed):
-        # valid address
-        seeds.append(seed)
-        seed = input("Enter another URL or enter for next menu: ")
-    else:
-        # invalid address ending
-        seed = input("Enter URL that ends with .com, .edu, .gov, .net, .org, not beginning with a '.' or enter for next menu: ")
-=======
-to_visit = []
-valid = ['.com','.edu','.gov','.net','.org']
-seed = input("Enter starting URL: ")
-while seed != '':
     if len(seed) > 5 and ('.com' in seed or '.edu' in seed or '.gov' in seed or '.net' in seed or '.org' in seed):
         # valid address
-        to_visit.append(seed)
+        seeds.append(seed)
         seed = input("Enter  another URL or enter for next menu: ")
     else:
         # invalid address ending
         seed = input("Enter URL that ends with .com, .edu, .gov, .net, .org or enter for next menu: ")
->>>>>>> 10fa242cd8ab8589cc1e5b420ec5f177bc93b865
 
 
 # get keyword(s)
 keyword = input("Enter keyword to search for or press enter for default: ")
 multiple = True
-<<<<<<< HEAD
 keywords = {}
 if keyword == '':
     keywords['job'] = 0 # change default if needed
     multiple = False
 else:
     keywords[keyword] = 0
-=======
-keywords = []
-if keyword == '':
-    keywords.append('job') # change default if needed
-    multiple = False
-else:
-    keywords.append(keyword)
->>>>>>> 10fa242cd8ab8589cc1e5b420ec5f177bc93b865
     
 while multiple:
     keyword = input("Enter next keyword to search for or press enter for done: ")
     if keyword == '':
         multiple = False
     else:
-<<<<<<< HEAD
+
         keywords[keyword] = 0
 
 ######### create all URL objects here #########
@@ -69,16 +46,14 @@ for i in range(len(seeds)):
     i = URL(address=seeds[i],keywords=keywords)
     to_visit.append(i)
 
+print(to_visit)
 for i in to_visit:
     print(i.toString())
 
     
 ###############################################
 
-=======
-        keywords.append(keyword)
-    
->>>>>>> 10fa242cd8ab8589cc1e5b420ec5f177bc93b865
+
 print(("\nChoose from the following termination conditions:"))
 print("1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs")
 termCond = False
