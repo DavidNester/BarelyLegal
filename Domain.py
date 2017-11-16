@@ -22,6 +22,7 @@ class Domain:
             # go to site
             # get new URLS
             # add new URLS to visited
+            #return list of domains found, whatever valuable info we got from
 
     def __eq__(self, other):
         return self.domain == other.domain
