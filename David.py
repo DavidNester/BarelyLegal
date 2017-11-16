@@ -3,9 +3,10 @@ from urlparse import urlparse
 
 
 def get_domain(url):
-	parsed_uri = urlparse(url)
-	domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
-	return domain
+    parsed_uri = urlparse(url)
+    domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
+    return domain
+
 
 def can_visit(url):
     domain = get_domain(url)
@@ -14,4 +15,3 @@ def can_visit(url):
     rp.read()
     if rp.canfetch("*", url):
         return True
-    
