@@ -1,24 +1,10 @@
-'''
-class URL:
+import re
 
-'''
-from Andrew.py import check_url
-import time
-import url
+with open('data.txt', 'r') as myfile:
+    data = myfile.read().replace('\n', '')
+        
+urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', data)
 
-def addit_url(url, visited):
-    '''
-    url: url to be checked
-    visited: visited strings
-    '''
+print(urls)
 
-    if (url.address in check_url):
-        return false
-
-
-#Testing?
-if __name__ == '__main__':
-    a = url.URL(domain = "www.facebook.com",address = "www.facebook.com/Philip")
-    print(addit_url(a,{"www.facebook.com":},['www.facebook.com/Apple/index']))
-
-
+#justtestingthingsrightnow
