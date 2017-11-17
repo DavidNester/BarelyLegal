@@ -5,6 +5,7 @@ from David import get_domain
 
 class Scraper:
     def __init__(self, seed):
+        # list of domains
         self.domains = [Domain(get_domain(seed))]
         self.visited_domains = set()
         self.job_urls = []
@@ -13,9 +14,10 @@ class Scraper:
         """
         This method will decide if we should terminate based on our conditions
         Currently defaulted to just visit one domain
+        Can customize later to handle different conditions
         :return: True if should stop looking. False else
         """
-        if len(self.visited_domains > 0):
+        if len(self.visited_domains) > 0:
             return True
         return False
 
