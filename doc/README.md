@@ -1,9 +1,9 @@
 # Developer Documentation Guidelines - Job Scraper
 Software Engineering Class 2017 @ EMU
 
-### Naming conventions
+## Naming conventions
 
-All function names should be descriptive. All functions names are lowercase and words are seperated by underscores. Parameters are also lowercase and underscore seperated.
+All **function names** should be descriptive. All functions names are lowercase and words are seperated by underscores. Parameters are also lowercase and underscore seperated.
 
 Example:
 ```
@@ -12,7 +12,7 @@ def distance_between_two_points(point_1, point_2):
 	return ...
 ``` 
 
-All variables should be descriptive, lowercase, and underscore seperated. Use CAPITALS to specify constants and make the names as descriptive as reasonably possible. "Magic numbers" should not be used.
+All **variables** should be descriptive, lowercase, and underscore seperated. Use CAPITALS to specify constants and make the names as descriptive as reasonably possible. "Magic numbers" should not be used.
 
 Example:
 ```
@@ -21,7 +21,7 @@ radius = 2
 area_of_circle = PI * radius ** 2
 ``` 
 
-Class names should begin with a capital and generally should be one word. Accessor and mutator methods should be lowercase and underscore seperated.
+**Class names** should begin with a capital and generally should be one word. Accessor and mutator methods should be lowercase and underscore seperated.
 
 Example:
 ```
@@ -41,9 +41,9 @@ class Person:
 
 ``` 
 
-### Comments
+## Comments
 
-All function declarations should be followed by a docstring which describes the function, its parameters, and its return value.
+All **function declarations** should be followed by a docstring which describes the function, its parameters, and its return value.
 
 Example:
 ```
@@ -59,7 +59,7 @@ def distance_between_two_points(point_1, point_2):
 	return ((x1-x2)**2 + (y1-y2) **2)**.5
 ``` 
 
-All in-line comments should start with a space (for readability) and may follow the code if the line is not too long.
+All **in-line comments** should start with a space (for readability) and may follow the code if the line is not too long.
 
 Example:
 ```
