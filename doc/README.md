@@ -21,7 +21,7 @@ radius = 2
 area_of_circle = PI * radius ** 2
 ``` 
 
-**Class names** should begin with a capital and generally should be one word. Accessor and mutator methods should be lowercase and underscore seperated.
+**Class names** should begin with a capital and generally should be one word. Accessor and mutator methods should be lowercase and underscore seperated. Classes should be in their own file.
 
 Example:
 ```
