@@ -13,11 +13,11 @@ ALLOWED_DOMAINS = ['.com','.edu','.gov','.net','.org']
 
 def check_domain(address):
     for i in ALLOWED_DOMAINS:
-        if i in address:
+        if i in address and len(seed) >= 5:
             return True
     return False
 
-def checktermination(cond_num, current_val, termination_val):
+def check_termination(cond_num, current_val, termination_val):
     '''return True if termination condition has been met, False otherwise'''
     if cond_num == '1' or cond_num == '2' or cond_num == '4':
         if current_val >= termination_val:
@@ -30,15 +30,13 @@ def checktermination(cond_num, current_val, termination_val):
 
 def get_input(msg=''):
     return input(msg)
-
-
         
 def get_seeds():
     seeds = []
     seed = get_input("Enter starting URL: ")
     count = 0
     while seed != '' or count == 0:
-        if len(seed) >= 5 and check_domain(seed):
+        if check_domain(seed):
             # valid address
             seeds.append(seed)
             seed = get_input("Enter another URL or enter for next menu: ")
