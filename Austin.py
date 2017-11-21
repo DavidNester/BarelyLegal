@@ -58,24 +58,23 @@ def get_seeds():
 def get_keywords():
     '''
     gets keywords searching for from user
-    returns the dictionary of keywords
+    returns the list of keywords
     ''' 
     keyword = get_input("Enter keyword to search for or press enter for default: ")
     multiple = True
-    keywords = {}
+    keywords = []
     if keyword == '':
-        keywords['job'] = 0 # change default if needed
+        keywords.append("jobs") # change default if needed
         multiple = False
     else:
-        keywords[keyword] = 0
+        keywords.append(keyword)
         
     while multiple:
         keyword = get_input("Enter next keyword to search for or press enter for done: ")
         if keyword == '':
             multiple = False
         else:
-
-            keywords[keyword] = 0
+            keywords.append(keyword)
     return keywords
 
 def get_termination_conditions():
@@ -115,7 +114,7 @@ def get_termination_conditions():
         elif choice == '3':
             # until list is out of pages
             termCond = True
-            termination = ['2',to_visit]
+            termination = ['2',seeds]
             print("Termination conditions set")
         elif choice == '4':
             # number of jobs
