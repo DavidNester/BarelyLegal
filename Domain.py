@@ -1,6 +1,9 @@
+import time
+
 class Domain:
     def __init__(self, domain):
         self.domain = domain
+        self.time = time.time()
         self.urls_to_visit = [domain]
         self.urls_visited = set()
         self.rp = robotparser.RobotFileParser()

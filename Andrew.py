@@ -1,19 +1,18 @@
 import time
 import url
 
-def check_url(self,  domain_times, visited):
+def check_url(self, domain, domain_times, visited, access_time = 15):
     '''
     Check URL to make sure that it meets all of the criteria.
     :param url: url to be checked
     :param domain_times: a dict of domain name strings and floats of the time accessed
     :param visited: a list of url strings that have already been visited
+    :param access_time minimum number of seconds between website pings with default of 15 seconds
     :return: True if the site is valid, False otherwise
     '''
 
-    ACCESS_TIME = 15 #Minimum number of seconds between website pings
-
     last_time = 0
-    if (site.domain in domain_times):
+    if (domain.domain in domain_times):
         last_time = domain_times[site.domain]
 
     if (site.address in visited):
