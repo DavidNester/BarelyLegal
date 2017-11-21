@@ -13,7 +13,7 @@ ALLOWED_DOMAINS = ['.com','.edu','.gov','.net','.org']
 
 def check_domain(address):
     for i in ALLOWED_DOMAINS:
-        if i in address and len(seed) >= 5:
+        if (str(i+'/') in address or address.endswith(i)) and len(address) >= 5:
             return True
     return False
 
