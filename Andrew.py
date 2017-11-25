@@ -12,15 +12,14 @@ def check_url(self, domain, domain_times, visited, access_time = 15):
     '''
 
     last_time = 0
-    if (domain.domain in domain_times):
-        last_time = domain_times[site.domain]
+    last_time = time.time()
 
     if (site.address in visited):
         return False
 
-    while (time.time() - last_time) <= ACCESS_TIME:
-        print('Waiting ', ACCESS_TIME - (time.time() - last_time), ' seconds for', site.domain)
-        time.sleep(ACCESS_TIME - (time.time()-last_time))
+    while (time.time() - last_time) <= access_time:
+        print('Waiting ', access_time - (time.time() - last_time), ' seconds for', site.domain)
+        time.sleep(access_time - (time.time()-last_time))
 
     return True
 
