@@ -68,6 +68,8 @@ class Domain:
         return: True if the site is valid, False otherwise
         '''
         address = self.urls_to_visit.pop(0)
+        if not(self.can_visit(address))
+            return False
         not_accepted = ['.js','.php']
         if not_accepted in address:
             return False
