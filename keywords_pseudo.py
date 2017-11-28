@@ -27,7 +27,7 @@ def keyword_search(url):
     bsObj = BeautifulSoup(html.read(),"html.parser")
     bsObj = bsObj.get_text() 
     mywords = bsObj.split()
-    for i in keywords
+    for i in keywords:
         for word in mywords:
             if keyword == word:
                 keynum +=1
@@ -49,7 +49,7 @@ def create_url_values(url):
     if keynum !=0:
         current_url = url()
         current_url.domain(url)
-        current_url.date = datetme.date
+        current_url.date = datetime.date
         current_url.time = datetime.time
         current_url.keyword[keyword] += keynum
         
