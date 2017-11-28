@@ -1,4 +1,5 @@
 import time
+from urlparse import urlparse
 
 def get_domain(url):
     """
