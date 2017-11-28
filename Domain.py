@@ -3,7 +3,7 @@ import time
 def get_domain(url):
     """
     gets domain of URL
-    :param url: url that we want to get domain from
+    :param url: string url that we want to get domain from
     :return: domain of url
     """
     parsed_uri = urlparse(url)
@@ -25,21 +25,21 @@ class Domain:
         if self.wait_time is None:
             self.wait_time = 0
 
-    def add_address(self, address):
+    def add_address(self, url):
         '''
         Checks if a url of the domain can be added to
         the list of urls to visit.
         param address: the new address to be added
         :return: true if the address is in the domain.
         '''
-        if  get_domain(address) != self.domain:
+        if  get_domain(url) != self.domain:
             return False
-        elif address in self.urls_visited:
+        elif url in self.urls_visited:
             return True
-        elif address in self.urls_to_visit:
+        elif url in self.urls_to_visit:
             return True
         else:
-            self.urls_to_visit.append(address)
+            self.urls_to_visit.append(url)
         return True
 
     def can_visit(self, url):
@@ -64,12 +64,11 @@ class Domain:
         Check URL to make sure that it meets all of the criteria.
         return: True if the site is valid, False otherwise
         '''
-
-        if (address in visited):
+        address = self.urls_to_visit.pop(0)
+        if (address in self.urls_visited):
             return False
 
-        while (time.time() - last_time) <= access_time:
-            print('Waiting ', access_time - (time.time() - last_time), ' seconds for', site.domain)
-            time.sleep(access_time - (time.time() - last_time))
-
+        while (time.time() - self.time) <= self.wait_time:
+            print('Waiting ', self.wait_time - (time.time() - self.time), ' seconds for', address)
+            time.sleep(self.wait_time - (time.time() - self.time()))
         return True
