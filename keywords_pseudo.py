@@ -29,7 +29,7 @@ def keyword_search(url):
     bsObj = BeautifulSoup(html.read(),"html.parser")
     bsObj = bsObj.get_text() 
     mywords = bsObj.split()
-    for i in keywords
+    for i in keywords:
         for word in mywords:
             if keyword == word:
                 keynum +=1
