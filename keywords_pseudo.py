@@ -14,9 +14,7 @@ keywords = ["jobs", "software"] # example keywords (these will be changed as the
 def keyword_search(url):
     '''
     Reads website and finds instances of keywords
-    bsObj   - website text without divs
-    mywords - bsObj split into a list of individual words
-    word    - each word in mywords
+    url - string of website address
     Returns keynum and runs create_url_values()
     '''
     global keynum
@@ -44,11 +42,7 @@ def keyword_search(url):
 def create_url_values(url):
     '''
     creates a url object if a keyword is found at least once in page
-    current_url - object name
-    domain      - string address
-    date        - srting readable time accessed
-    time        - float computer time accessed
-    keyword     - dictionary with keyword and instances
+    url - string of website address
     Returns url object
     '''
     global keynum
@@ -60,5 +54,3 @@ def create_url_values(url):
         current_url.keyword[keyword] += keynum
         
         keynum = 0
-
-
