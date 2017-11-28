@@ -1,4 +1,5 @@
 import time
+import urllib.robotparser
 from urlparse import urlparse
 
 def get_domain(url):
@@ -62,13 +63,16 @@ class Domain:
 
     def has_next_url(self):
         '''
-        Check URL to make sure that it meets all of the criteria.
+        Check URL to make sure that it meets all of the criteria. Not already visited,
+        not .js or .php, and met domain wait time.
         return: True if the site is valid, False otherwise
         '''
         address = self.urls_to_visit.pop(0)
-        if (address in self.urls_visited):
+        not_accepted = ['.js','.php']
+        if not_accepted in address:
             return False
-
+        elif (address in self.urls_visited):
+            return False
         while (time.time() - self.time) <= self.wait_time:
             print('Waiting ', self.wait_time - (time.time() - self.time), ' seconds for', address)
             time.sleep(self.wait_time - (time.time() - self.time()))
