@@ -1,44 +1,47 @@
-'''
-prompt user for seed(s) and add to URLs to-visit list 
-
-prompt user for keyword (may set default)
-
-default termination conditions = time limit OR page limit reached OR out of pages OR acquired sufficient jobs
-
-prompt user for termination conditions
-'''
-from url import *
-
 ALLOWED_DOMAINS = ['.com','.edu','.gov','.net','.org']
 
 def check_domain(address):
+    '''
+    checks given address to determine if it is valid
+    returns True or False
+    '''
     for i in ALLOWED_DOMAINS:
-        if i in address:
+        if (str(i+'/') in address or address.endswith(i)) and len(address) >= 5:
             return True
     return False
 
-def checktermination(cond_num, current_val, termination_val):
-    '''return True if termination condition has been met, False otherwise'''
+def check_termination(cond_num, current_val, termination_val):
+    '''
+    Checking if the termination conditions have been met
+    return True or False
+    '''
     if cond_num == '1' or cond_num == '2' or cond_num == '4':
         if current_val >= termination_val:
             return False
     elif cond_num == '3':
         if current_val == termination_val:
-            # if to_visit list is empty lsit
+            # if to_visit list is empty
             return False
     return True
 
 def get_input(msg=''):
+    '''
+    runs input function
+    msg - message displayed to user
+    returns input function with message
+    '''
     return input(msg)
-
-
         
 def get_seeds():
+    '''
+    gets all seeds from user
+    returns list of seeds
+    ''' 
     seeds = []
     seed = get_input("Enter starting URL: ")
     count = 0
     while seed != '' or count == 0:
-        if len(seed) >= 5 and check_domain(seed):
+        if check_domain(seed):
             # valid address
             seeds.append(seed)
             seed = get_input("Enter another URL or enter for next menu: ")
@@ -48,32 +51,37 @@ def get_seeds():
             seed = get_input("Enter starting URL: ")
         else:
             # invalid address ending
-            print("Enter URL that contains .com, .edu, .gov, .net, .org")# or enter for next menu: ")
+            print("Enter URL that contains .com, .edu, .gov, .net, .org")
             seed = get_input("Enter URL: ")
     return seeds
 
 def get_keywords():
-    # get keyword(s)
+    '''
+    gets keywords searching for from user
+    returns the list of keywords
+    ''' 
     keyword = get_input("Enter keyword to search for or press enter for default: ")
     multiple = True
-    keywords = {}
+    keywords = []
     if keyword == '':
-        keywords['job'] = 0 # change default if needed
+        keywords.append("jobs") # change default if needed
         multiple = False
     else:
-        keywords[keyword] = 0
+        keywords.append(keyword)
         
     while multiple:
         keyword = get_input("Enter next keyword to search for or press enter for done: ")
         if keyword == '':
             multiple = False
         else:
-
-            keywords[keyword] = 0
+            keywords.append(keyword)
     return keywords
 
-def get_termination_conditions():    
-    # termination conditions 
+def get_termination_conditions():
+    '''
+    gets termination conditions from the user
+    returns a list containing termination conditions & values
+    '''
     print(("\nChoose from the following termination conditions:"))
     print("1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs")
     termCond = False
@@ -106,7 +114,7 @@ def get_termination_conditions():
         elif choice == '3':
             # until list is out of pages
             termCond = True
-            termination = ['2',to_visit]
+            termination = ['2',seeds]
             print("Termination conditions set")
         elif choice == '4':
             # number of jobs
