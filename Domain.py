@@ -61,8 +61,7 @@ class Domain:
             if keywords_found:
                 relevant_urls.append(url)
             for nurl in new_urls:
-                if nurl not in self.urls_visited:
-                    self.urls_to_visit.append(nurl)
+                self.add_address(nurl)
         return relevant_urls
 
     def __eq__(self, other):
