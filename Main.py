@@ -1,6 +1,6 @@
 # main file import relevant functions from each persons file
 # add them all to this file at the end
-from Domain import Domain
+from Domain import Domain, get_domain
 from keywords_pseudo import *
 
 
@@ -26,7 +26,7 @@ class Scraper:
         while not self.terminated():
             domain = self.domains.pop(0)
             self.visited_domains += [domain]
-            # domain.visit_urls() visits all pages in domain and returns a list of new domains that are found
+            domain.visit_urls()  # visits all pages in domain and returns a list of new domains that are found
             # and a list of relevant urls
             new_domains, relevant_urls = domain.visit_urls()
 
@@ -175,8 +175,8 @@ if __name__ == "__main__":
     # seeds = get_seeds()
     # keywords = get_keywords()
     # termination_conditions = get_termination_conditions()
-    init_seed = 'www.emu.edu'
+    init_seed = 'https://www.emu.edu/'
     keywords = ['royal']
     scraper = Scraper(init_seed)
-    scraper.visit_domains()
+    print(scraper.visit_domains(keywords))
 

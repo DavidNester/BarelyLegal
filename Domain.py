@@ -1,8 +1,8 @@
 import time
+from urllib import robotparser
 from urllib.parse import urlparse
 import datetime
 from urllib.request import urlopen
-from urllib import robotparser
 from bs4 import BeautifulSoup
 import ssl
 from url import URL
@@ -58,7 +58,7 @@ class Domain:
         else:
             self.urls_to_visit.append(url)
         return True
-
+      
     def visit_urls(self):
         #print('len()',len(self.urls_to_visit))
         while len(self.urls_to_visit) > 0:
@@ -68,6 +68,22 @@ class Domain:
             # get new URLS
             # add new URLS to visited
             # return list of domains found, whatever valuable info we got from
+    ''''
+    #David I changed some things around so your code is more complete but doesn't
+    #work with mine. I have a sort of sample visit urls, but these need to be merged.
+    def visit_urls(self, keywords):
+        relevant_urls = []
+        while len(self.urls_to_visit) > 0:
+            url = self.urls_to_visit.pop(0)
+            keywords_found, new_urls = keywords_search(url,keywords)
+            self.urls_visited.append(url)
+            if keywords_found:
+                relevant_urls.append(url)
+            for nurl in new_urls:
+                if nurl not in self.urls_visited:
+                    self.urls_to_visit.append(nurl)
+        return relevant_urls
+    '''
 
     def __eq__(self, other):
         return self.domain == other.domain
