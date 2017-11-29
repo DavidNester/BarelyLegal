@@ -36,8 +36,7 @@ def keyword_search(url):
             else:
                 keynum +=0
 
-        print(keynum)
-        create_url_values(url)
+         create_url_values(url)
 
 
 
@@ -46,7 +45,7 @@ def create_url_values(url):
     creates a url object if a keyword is found at least once in page
     current_url - object name
     domain      - string address
-    date        - srting readable time accessed
+    date        - sorting readable time accessed
     time        - float computer time accessed
     keyword     - dictionary with keyword and instances
     Returns url object
@@ -60,5 +59,3 @@ def create_url_values(url):
         current_url.keyword[keyword] += keynum
         
         keynum = 0
-
-
