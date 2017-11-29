@@ -4,22 +4,19 @@ from bs4 import BeautifulSoup
 import ssl
 import url
 import re
-'''
+"""
 This code searches a page for instances of the user's keywords and creates a url object for each page with any of the keywords found.
 To run, this code needs one parameter "url" that is the address of each webpage.
-'''
-bsObj 
+"""
 keynum = 0
-keywords = ["jobs", "software"] # example keywords (these will be changed as the user specifies what they want)
 
-def keyword_search(url):
-    '''
+def keyword_search(url, keywords):
+    """
     Reads website and finds instances of keywords
     url - string of website address
     Returns keynum and runs create_url_values()
-    '''
+    """
     global keynum
-    global keywords
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
@@ -39,13 +36,12 @@ def keyword_search(url):
     return url_list
 
 
-
-def create_url_values(url,keynum):
-    '''
+def create_url_values(url, keynum):
+    """
     creates a url object if a keyword is found at least once in page
     url - string of website address
     Returns url object
-    '''
+    """
     if keynum > 0:
         current_url = url()
         current_url.domain(url)
@@ -56,7 +52,6 @@ def create_url_values(url,keynum):
     else:
         return None
         
-        
 
 def collect_url(url):
     urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', bsObj)
@@ -64,10 +59,9 @@ def collect_url(url):
 
 
 def parse_url(url, keywords):
-    '''
+    """
     Returns url object and a list of other urls found
-    '''
+    """
     url_list = keyword_search(url)
     new_urls = collect_url(url)
-    
-    
+

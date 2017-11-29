@@ -2,6 +2,7 @@ import time
 import urllib.robotparser
 from urlparse import urlparse
 
+
 def get_domain(url):
     """
     gets domain of URL
@@ -12,15 +13,16 @@ def get_domain(url):
     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
     return domain
 
+
 class Domain:
     def __init__(self, domain):
-        self.domain = domain #The domain address (facebook.com)
+        self.domain = domain  # The domain address (facebook.com)
         self.time = time.time()
-        self.keywords = [] #list of strings
+        self.keywords = []  # list of strings
         self.urls_to_visit = []
         self.urls_visited = set()
         self.rp = robotparser.RobotFileParser()
-        #What happens if no robots.txt is found?
+        # What happens if no robots.txt is found?
         self.rp.set_url(domain + "/robots.txt")
         self.rp.read()
         self.wait_time = self.rp.crawl_delay("*")
@@ -34,7 +36,7 @@ class Domain:
         param address: the new address to be added
         :return: true if the address is in the domain.
         '''
-        if  get_domain(url) != self.domain:
+        if get_domain(url) != self.domain:
             return False
         elif url in self.urls_visited:
             return True
@@ -56,7 +58,7 @@ class Domain:
             # go to site
             # get new URLS
             # add new URLS to visited
-            #return list of domains found, whatever valuable info we got from
+            # return list of domains found, whatever valuable info we got from
 
     def __eq__(self, other):
         return self.domain == other.domain
@@ -73,7 +75,7 @@ class Domain:
         not_accepted = ['.js','.php']
         if not_accepted in address:
             return False
-        elif (address in self.urls_visited):
+        elif address in self.urls_visited:
             return False
         while (time.time() - self.time) <= self.wait_time:
             print('Waiting ', self.wait_time - (time.time() - self.time), ' seconds for', address)

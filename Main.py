@@ -1,7 +1,8 @@
 # main file import relevant functions from each persons file
 # add them all to this file at the end
 from Domain import Domain
-from David import get_domain
+from keywords_pseudo import *
+
 
 class Scraper:
     def __init__(self, seed):
@@ -27,25 +28,27 @@ class Scraper:
             self.visited_domains += [domain]
             # domain.visit_urls() visits all pages in domain and returns a list of new domains that are found
             # and a list of relevant urls
-            new_domains,relevant_urls = domain.visit_urls()
+            new_domains, relevant_urls = domain.visit_urls()
 
 ALLOWED_DOMAINS = ['.com','.edu','.gov','.net','.org']
 
+
 def check_domain(address):
-    '''
+    """
     checks given address to determine if it is valid
     returns True or False
-    '''
+    """
     for i in ALLOWED_DOMAINS:
         if (str(i+'/') in address or address.endswith(i)) and len(address) >= 5:
             return True
     return False
 
+
 def check_termination(cond_num, current_val, termination_val):
-    '''
+    """
     Checking if the termination conditions have been met
     return True or False
-    '''
+    """
     if cond_num == '1' or cond_num == '2' or cond_num == '4':
         if current_val >= termination_val:
             return False
@@ -55,19 +58,21 @@ def check_termination(cond_num, current_val, termination_val):
             return False
     return True
 
+
 def get_input(msg=''):
-    '''
+    """
     runs input function
     msg - message displayed to user
     returns input function with message
-    '''
+    """
     return input(msg)
-        
+
+
 def get_seeds():
-    '''
+    """
     gets all seeds from user
     returns list of seeds
-    ''' 
+    """
     seeds = []
     seed = get_input("Enter starting URL: ")
     count = 0
@@ -86,11 +91,12 @@ def get_seeds():
             seed = get_input("Enter URL: ")
     return seeds
 
+
 def get_keywords():
-    '''
+    """
     gets keywords searching for from user
     returns the list of keywords
-    ''' 
+    """
     keyword = get_input("Enter keyword to search for or press enter for default: ")
     multiple = True
     keywords = []
@@ -108,16 +114,17 @@ def get_keywords():
             keywords.append(keyword)
     return keywords
 
+
 def get_termination_conditions():
-    '''
+    """
     gets termination conditions from the user
     returns a list containing termination conditions & values
-    '''
-    print(("\nChoose from the following termination conditions:"))
+    """
+    print("\nChoose from the following termination conditions:")
     print("1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs")
     termCond = False
     while not termCond:
-        choice = get_input("Enter the number cooresponding to your termination choice: ") # or d for default?
+        choice = get_input("Enter the number cooresponding to your termination choice: ")  # or d for default?
         if choice == '1':
             # time limit
             termCond = True
@@ -163,7 +170,13 @@ def get_termination_conditions():
             print("Error: Insert valid termination condition")
     return termination
 
+
 if __name__ == "__main__":
-    seeds = get_seeds()
-    keywords = get_keywords()
-    termination_conditions = get_termination_conditions()
+    # seeds = get_seeds()
+    # keywords = get_keywords()
+    # termination_conditions = get_termination_conditions()
+    init_seed = 'www.emu.edu'
+    keywords = ['royal']
+    scraper = Scraper(init_seed)
+    scraper.visit_domains()
+
