@@ -1,6 +1,7 @@
 import time
-import urllib.robotparser
-from urlparse import urlparse
+from urllib import robotparser
+from keywords_pseudo import *
+from urllib.parse import urlparse
 
 
 def get_domain(url):
@@ -51,14 +52,18 @@ class Domain:
             return True
         return False
 
-    def visit_urls(self):
+    def visit_urls(self, keywords):
+        relevant_urls = []
         while len(self.urls_to_visit) > 0:
-            pass
-            # visit site
-            # go to site
-            # get new URLS
-            # add new URLS to visited
-            # return list of domains found, whatever valuable info we got from
+            url = self.urls_to_visit.pop(0)
+            keywords_found, new_urls = keywords_search(url,keywords)
+            self.urls_visited.append(url)
+            if keywords_found:
+                relevant_urls.append(url)
+            for nurl in new_urls:
+                if nurl not in self.urls_visited:
+                    self.urls_to_visit.append(nurl)
+        return relevant_urls
 
     def __eq__(self, other):
         return self.domain == other.domain
