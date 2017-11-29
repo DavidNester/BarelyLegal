@@ -37,6 +37,11 @@ def keyword_search(url, keywords):
 def create_url_values(url):
     """
     creates a url object if a keyword is found at least once in page
+    current_url - object name
+    domain      - string address
+    date        - sorting readable time accessed
+    time        - float computer time accessed
+    keyword     - dictionary with keyword and instances
     url - string of website address
     Returns url object
     """
@@ -52,9 +57,16 @@ def create_url_values(url):
     current_url.time = datetime.time
     current_url.keyword[keyword] += keynum
     return current_url
-        
+
 
 def collect_url(url):
     urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', bsObj)
     return urls
 
+
+def parse_url(url, keywords):
+    """
+    Returns url object and a list of other urls found
+    """
+    url_list = keyword_search(url)
+    new_urls = collect_url(url)
