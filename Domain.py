@@ -1,6 +1,11 @@
 import time
 import urllib.robotparser
-from urlparse import urlparse
+from urllib.parse import urlparse
+import datetime
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import ssl
+import url
 
 
 def get_domain(url):
@@ -46,16 +51,9 @@ class Domain:
             self.urls_to_visit.append(url)
         return True
 
-    def can_visit(self, url):
-        if self.rp.canfetch("*", url.address):
-            return True
-        return False
-
     def visit_urls(self):
         while len(self.urls_to_visit) > 0:
             pass
-            # visit site
-            # go to site
             # get new URLS
             # add new URLS to visited
             # return list of domains found, whatever valuable info we got from
@@ -81,3 +79,8 @@ class Domain:
             print('Waiting ', self.wait_time - (time.time() - self.time), ' seconds for', address)
             time.sleep(self.wait_time - (time.time() - self.time()))
         return True
+    def can_visit(self, url):
+        if self.rp.canfetch("*", url.address):
+            return True
+        return False
+
