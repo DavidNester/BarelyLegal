@@ -1,12 +1,12 @@
 import time
 from urllib import robotparser
-from keywords_pseudo import *
 from urllib.parse import urlparse
 import datetime
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
-import url
+from url import URL
+import re
 
 
 def get_domain(url):
@@ -21,10 +21,10 @@ def get_domain(url):
 
 
 class Domain:
-    def __init__(self, domain):
+    def __init__(self, domain, keywords):
         self.domain = domain  # The domain address (facebook.com)
         self.time = time.time()
-        self.keywords = []  # list of strings
+        self.keywords = keywords  # list of strings
         self.urls_to_visit = []
         self.urls_visited = set()
         self.rp = robotparser.RobotFileParser()
@@ -39,19 +39,38 @@ class Domain:
         '''
         Checks if a url of the domain can be added to
         the list of urls to visit.
-        param address: the new address to be added
-        :return: true if the address is in the domain.
+        url: the new address to be added
+        return: true if the address is in the domain.
         '''
         if get_domain(url) != self.domain:
+            print('Domain does not belong to this domain instance')
             return False
         elif url in self.urls_visited:
+            print('Site already visited')
             return True
         elif url in self.urls_to_visit:
+            print('Already going to visit site')
+            return True
+        elif not(self.can_visit(url)):
+            self.urls_visited.add(url)
+            print('Not allowed to access url.')
             return True
         else:
             self.urls_to_visit.append(url)
         return True
-
+      
+    def visit_urls(self):
+        #print('len()',len(self.urls_to_visit))
+        while len(self.urls_to_visit) > 0:
+            address = self.urls_to_visit.pop(0)
+            url_obj,list_of_urls = self.keyword_search(address)
+            print(list_of_urls)
+            # get new URLS
+            # add new URLS to visited
+            # return list of domains found, whatever valuable info we got from
+    ''''
+    #David I changed some things around so your code is more complete but doesn't
+    #work with mine. I have a sort of sample visit urls, but these need to be merged.
     def visit_urls(self, keywords):
         relevant_urls = []
         while len(self.urls_to_visit) > 0:
@@ -63,9 +82,14 @@ class Domain:
             for nurl in new_urls:
                 self.add_address(nurl)
         return relevant_urls
+    '''
 
     def __eq__(self, other):
         return self.domain == other.domain
+
+    def collect_url(self, url, text):
+        urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+        return urls
 
     def has_next_url(self):
         '''
@@ -87,7 +111,45 @@ class Domain:
         return True
 
     def can_visit(self, url):
-        if self.rp.canfetch("*", url.address):
+        #self.rp.allow_all = True
+        if self.rp.can_fetch("*", url):
             return True
         return False
 
+    def keyword_search(self, address):
+        '''
+        Reads website and finds instances of keywords
+        address: string of url
+        returns
+        '''
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        html = urlopen(address, context=ctx)
+
+        bsObj = BeautifulSoup(html.read(), "html.parser")
+        bsObj = bsObj.get_text()
+        mywords = bsObj.split()
+        url_list = []
+
+        url = URL(date = datetime.date, address = address)
+
+        # Count the number of keywords and save in url.keywords dict
+        for keyword in self.keywords:
+            url.keywords[keyword] = mywords.count(keyword)
+
+        # adds url to list only if at least 1 keyword is found
+        for count in url.keywords.values():
+            if count > 0:
+                url_list.append(url)
+                break
+        #for url in url_list:
+        #    print(url.keywords)
+        return url_list, self.collect_url(address, str(bsObj))
+
+if __name__ == '__main__':
+    #test_url = 'http://webscraper.io/test-sites/e-commerce/allinone'
+    test_url = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
+    d = Domain(get_domain(test_url),['most'])
+    d.add_address(test_url)
+    d.visit_urls()
