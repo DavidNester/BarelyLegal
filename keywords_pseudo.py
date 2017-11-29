@@ -3,24 +3,20 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
 import url
-
-'''
+import re
+"""
 This code searches a page for instances of the user's keywords and creates a url object for each page with any of the keywords found.
 To run, this code needs one parameter "url" that is the address of each webpage.
-'''
+"""
 keynum = 0
-keywords = ["jobs", "software"] # example keywords (these will be changed as the user specifies what they want)
 
-def keyword_search(url):
-    '''
+def keyword_search(url, keywords):
+    """
     Reads website and finds instances of keywords
-    bsObj   - website text without divs
-    mywords - bsObj split into a list of individual words
-    word    - each word in mywords
+    url - string of website address
     Returns keynum and runs create_url_values()
-    '''
+    """
     global keynum
-    global keywords
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
@@ -29,33 +25,46 @@ def keyword_search(url):
     bsObj = BeautifulSoup(html.read(),"html.parser")
     bsObj = bsObj.get_text() 
     mywords = bsObj.split()
-    for i in keywords
+    url_list = []
+    for i in keywords:
         for word in mywords:
             if keyword == word:
                 keynum +=1
-            else:
-                keynum +=0
+        url_obj = create_url_values(url,keynum)
+        if not(url_obj is None):
+            url_list.append(url_obj)
+    return url_list
 
-         create_url_values(url)
 
-
-
-def create_url_values(url):
-    '''
+def create_url_values(url, keynum):
+    """
     creates a url object if a keyword is found at least once in page
     current_url - object name
     domain      - string address
     date        - sorting readable time accessed
     time        - float computer time accessed
     keyword     - dictionary with keyword and instances
+    url - string of website address
     Returns url object
-    '''
-    global keynum
-    if keynum !=0:
+    """
+    if keynum > 0:
         current_url = url()
         current_url.domain(url)
-        current_url.date = datetme.date
+        current_url.date = datetime.date
         current_url.time = datetime.time
         current_url.keyword[keyword] += keynum
-        
-        keynum = 0
+        return current_url
+    else:
+        return None
+
+def collect_url(url):
+    urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', bsObj)
+    return urls
+
+
+def parse_url(url, keywords):
+    """
+    Returns url object and a list of other urls found
+    """
+    url_list = keyword_search(url)
+    new_urls = collect_url(url)
