@@ -2,15 +2,17 @@ import datetime
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
-import url
+#import url
 import re
 '''
 This code searches a page for instances of the user's keywords and creates a url object for each page with any of the keywords found.
 To run, this code needs one parameter "url" that is the address of each webpage.
 '''
-bsObj 
+
 keynum = 0
 keywords = ["jobs", "software"] # example keywords (these will be changed as the user specifies what they want)
+url = "https://www.emu.edus/"
+
 
 def keyword_search(url):
     '''
@@ -18,12 +20,17 @@ def keyword_search(url):
     url - string of website address
     Returns keynum and runs create_url_values()
     '''
-    global keynum
-    global keywords
-    ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
-    html = urlopen(url, context=ctx)
+    while True:
+        global keynum
+        global keywords
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        try:
+            html = urlopen(url, context=ctx)
+            break
+        except:
+            print ("url is broken")
 
     bsObj = BeautifulSoup(html.read(),"html.parser")
     bsObj = bsObj.get_text() 
@@ -31,7 +38,7 @@ def keyword_search(url):
     url_list = []
     for i in keywords:
         for word in mywords:
-            if keyword == word:
+            if i == word:
                 keynum +=1
         url_obj = create_url_values(url,keynum)
         if not(url_obj is None):
