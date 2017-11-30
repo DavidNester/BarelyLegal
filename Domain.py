@@ -23,10 +23,9 @@ def get_domain(url):
 
 
 class Domain:
-    def __init__(self, domain, keywords):
+    def __init__(self, domain):
         self.domain = domain  # The domain address (facebook.com)
         self.time = time.time()
-        self.keywords = keywords  # list of strings
         self.urls_to_visit = []
         self.urls_visited = set()
         self.rp = robotparser.RobotFileParser()
@@ -61,14 +60,14 @@ class Domain:
             self.urls_to_visit.append(url)
         return True
 
-    def visit_urls(self):
+    def visit_urls(self, keywords):
         '''
         :return: Set of knew urls
         '''
         outside_urls = set()
         while len(self.urls_to_visit) > 0:
             address = self.urls_to_visit.pop(0)
-            url, new_urls = self.keyword_search(address)
+            url, new_urls = self.keyword_search(address,keywords)
             self.urls_visited.update(address)
             append_to_log(url)
 
@@ -110,7 +109,7 @@ class Domain:
             return True
         return False
 
-    def keyword_search(self, address):
+    def keyword_search(self, address, keywords):
         '''
         Reads website and finds instances of keywords
         address: string of url
@@ -129,7 +128,7 @@ class Domain:
         url = URL(date = datetime.date, address = address)
 
         # Count the number of keywords and save in url.keywords dict
-        for keyword in self.keywords:
+        for keyword in keywords:
             url.keywords[keyword] = mywords.count(keyword)
 
         return url, self.collect_url(address, str(bsObj))
