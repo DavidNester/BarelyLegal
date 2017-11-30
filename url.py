@@ -3,8 +3,14 @@ import datetime
 
 
 class URL:
+    date = str()
+    keywords = dict()
+    address = ""
+
     def __init__(self, date = "", keywords = {}, address = ""):
-        current_url.domain(url)
-        current_url.date = datetime.date
-        current_url.time = datetime.time
-        current_url.keyword[keyword] += keynum
+        self.date = date
+        self.keywords = keywords
+        self.address = address
+
+    def toString(self):
+        return self.address
