@@ -1,3 +1,5 @@
+from Brandon import *
+
 import time
 from urllib import robotparser
 from urllib.parse import urlparse
@@ -58,31 +60,23 @@ class Domain:
         else:
             self.urls_to_visit.append(url)
         return True
-      
+
     def visit_urls(self):
-        #print('len()',len(self.urls_to_visit))
+        '''
+        :return: Set of knew urls
+        '''
+        outside_urls = set()
         while len(self.urls_to_visit) > 0:
             address = self.urls_to_visit.pop(0)
-            url_obj,list_of_urls = self.keyword_search(address)
-            print(list_of_urls)
-            # get new URLS
-            # add new URLS to visited
-            # return list of domains found, whatever valuable info we got from
-    ''''
-    #David I changed some things around so your code is more complete but doesn't
-    #work with mine. I have a sort of sample visit urls, but these need to be merged.
-    def visit_urls(self, keywords):
-        relevant_urls = []
-        while len(self.urls_to_visit) > 0:
-            url = self.urls_to_visit.pop(0)
-            keywords_found, new_urls = keywords_search(url,keywords)
-            self.urls_visited.append(url)
-            if keywords_found:
-                relevant_urls.append(url)
+            url, new_urls = self.keyword_search(address)
+            self.urls_visited.update(address)
+            append_to_log(url)
+
             for nurl in new_urls:
-                self.add_address(nurl)
-        return relevant_urls
-    '''
+                if not(self.add_address(nurl)):
+                    outside_urls.update(nurl)
+        return outside_urls
+
 
     def __eq__(self, other):
         return self.domain == other.domain
@@ -138,14 +132,7 @@ class Domain:
         for keyword in self.keywords:
             url.keywords[keyword] = mywords.count(keyword)
 
-        # adds url to list only if at least 1 keyword is found
-        for count in url.keywords.values():
-            if count > 0:
-                url_list.append(url)
-                break
-        #for url in url_list:
-        #    print(url.keywords)
-        return url_list, self.collect_url(address, str(bsObj))
+        return url, self.collect_url(address, str(bsObj))
 
 if __name__ == '__main__':
     #test_url = 'http://webscraper.io/test-sites/e-commerce/allinone'
