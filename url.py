@@ -14,3 +14,5 @@ class URL:
 
     def toString(self):
         return self.address
+    def __eq__(self,other):
+        return self.address == other.address
