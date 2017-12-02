@@ -152,7 +152,7 @@ def get_termination_conditions():
         elif choice == '3':
             # until list is out of pages
             termCond = True
-            termination = ['2',seeds]
+            termination = ['3',seeds]
             print("Termination conditions set")
         elif choice == '4':
             # number of jobs
