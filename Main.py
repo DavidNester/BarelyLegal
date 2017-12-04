@@ -13,20 +13,21 @@ class Scraper:
 
     def terminated(self):
         """
+        ***This should be combined with austins function below***
         This method will decide if we should terminate based on our conditions
         Currently defaulted to just visit one domain
         Can customize later to handle different conditions
         :return: True if should stop looking. False else
         """
-        if len(self.visited_domains) > 0:
+        if len(self.visited_domains) > 1:
             return True
         return False
 
     def visit_domains(self, keywords):
-        while not self.terminated():
+        while not self.terminated() and len(self.domains) > 0:
             domain = self.domains.pop(0)
             self.visited_domains.update([domain])
-            outside_urls = domain.visit_urls(keywords)
+            outside_urls = domain.visit_urls(keywords,self)
             self.add_domains(outside_urls)
 
     def add_domains(self,urls):
@@ -182,5 +183,4 @@ if __name__ == "__main__":
     init_seed = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
     keywords = ['most']
     scraper = Scraper(init_seed)
-    print(scraper.visit_domains(keywords))
-
+    scraper.visit_domains(keywords)

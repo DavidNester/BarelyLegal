@@ -62,13 +62,12 @@ class Domain:
             self.urls_to_visit.append(url)
         return True
 
-    def visit_urls(self, keywords):
+    def visit_urls(self, keywords, scraper):
         '''
         :return: Set of knew urls
         '''
         outside_urls = set()
-        while len(self.urls_to_visit) > 0:
-            print(len(self.urls_to_visit))
+        while len(self.urls_to_visit) > 0 and not scraper.terminated:
             address = self.urls_to_visit.pop(0)
             url, new_urls = self.keyword_search(address,keywords)
             self.urls_visited.update(address)
@@ -85,6 +84,9 @@ class Domain:
 
     def __hash__(self):
         return hash(self.domain)
+
+    def __str__(self):
+        return self.domain
 
     def collect_url(self, url, text):
         urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)

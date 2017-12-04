@@ -12,7 +12,7 @@ class URL:
         self.keywords = keywords
         self.address = address
 
-    def toString(self):
+    def __str__(self):
         return self.address
 
     def __eq__(self,other):
