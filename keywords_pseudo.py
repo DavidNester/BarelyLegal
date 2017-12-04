@@ -18,23 +18,31 @@ def keyword_search(url, keywords):
     ctx = ssl._create_unverified_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
-    html = urlopen(url, context=ctx)
+    try:
+        html = urlopen(url, context=ctx)
+    except:
+        return False
+    
 
     bsObj = BeautifulSoup(html.read(),"html.parser")
-    bsObj = bsObj.get_text() 
+    bsObj = bsObj.get_text().lower() 
     mywords = bsObj.split()
-    url_list = collect_urls()
+    url_list = collect_url(bsObj)
     keywords_found = False
-    for i in keywords:
+    keyword_count = {i:0 for i in keywords}
+    print(keyword_count)
+    for keyword in keywords:
         # Currently set to break the loop if any keyword is found and add the url to the list to be returned
         for word in mywords:
-            if keyword == word:
+            if keyword.lower() == word:
                 keywords_found = True
+                keyword_count[keyword] += 1
                 break
-    return keywords_found, url_list
+    
+    return create_url_values(url, keyword_count), url_list
 
 
-def create_url_values(url):
+def create_url_values(url_string, keywords_count):
     """
     creates a url object if a keyword is found at least once in page
     current_url - object name
@@ -51,22 +59,14 @@ def create_url_values(url):
     a URL once. The one thing a URL class could do is be able to store the associated keywords with each URL that is 
     found but that could be done as part of the keyword_search function. -- David
     """
-    current_url = url()
-    current_url.domain(url)
-    current_url.date = datetime.date
-    current_url.time = datetime.time
-    current_url.keyword[keyword] += keynum
+    current_url = url.URL(datetime.date, keywords_count, url_string)
     return current_url
 
 
-def collect_url(url):
+def collect_url(bsObj):
     urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', bsObj)
     return urls
 
 
-def parse_url(url, keywords):
-    """
-    Returns url object and a list of other urls found
-    """
-    url_list = keyword_search(url)
-    new_urls = collect_url(url)
+if __name__ == "__main__":
+    print(keyword_search("https://www.emu.edu", ["Eastern", "Mennonite"])[0])
