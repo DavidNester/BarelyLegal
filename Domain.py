@@ -69,8 +69,8 @@ class Domain:
             address = self.urls_to_visit.pop(0)
             url, new_urls = self.keyword_search(address,keywords)
             self.urls_visited.update(address)
-            append_to_log(url)
-
+            if url is not None:
+                append_to_log(url)
             for nurl in new_urls:
                 if not(self.add_address(nurl)):
                     outside_urls.update(nurl)
@@ -118,12 +118,13 @@ class Domain:
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
-        html = urlopen(address, context=ctx)
-
+        try:
+            html = urlopen(address, context=ctx)
+        except:
+            return None,[]
         bsObj = BeautifulSoup(html.read(), "html.parser")
         bsObj = bsObj.get_text()
         mywords = bsObj.split()
-        url_list = []
 
         url = URL(date = datetime.date, address = address)
 
@@ -136,6 +137,7 @@ class Domain:
 if __name__ == '__main__':
     #test_url = 'http://webscraper.io/test-sites/e-commerce/allinone'
     test_url = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
-    d = Domain(get_domain(test_url),['most'])
+    #d = Domain(get_domain(test_url),['most'])
+    d = Domain(get_domain(test_url))
     d.add_address(test_url)
-    d.visit_urls()
+    print(d.visit_urls(['most']))
