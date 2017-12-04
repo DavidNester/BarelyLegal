@@ -23,7 +23,8 @@ def get_domain(url):
 
 
 class Domain:
-    def __init__(self, domain):
+    def __init__(self, url):
+        domain = get_domain(url)
         self.domain = domain  # The domain address (facebook.com)
         self.time = time.time()
         self.urls_to_visit = []
@@ -35,6 +36,7 @@ class Domain:
         self.wait_time = self.rp.crawl_delay("*")
         if self.wait_time is None:
             self.wait_time = 0
+        self.add_address(url)
 
     def add_address(self, url):
         '''
@@ -66,6 +68,7 @@ class Domain:
         '''
         outside_urls = set()
         while len(self.urls_to_visit) > 0:
+            print(len(self.urls_to_visit))
             address = self.urls_to_visit.pop(0)
             url, new_urls = self.keyword_search(address,keywords)
             self.urls_visited.update(address)
@@ -79,6 +82,9 @@ class Domain:
 
     def __eq__(self, other):
         return self.domain == other.domain
+
+    def __hash__(self):
+        return hash(self.domain)
 
     def collect_url(self, url, text):
         urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
@@ -137,7 +143,5 @@ class Domain:
 if __name__ == '__main__':
     #test_url = 'http://webscraper.io/test-sites/e-commerce/allinone'
     test_url = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
-    #d = Domain(get_domain(test_url),['most'])
-    d = Domain(get_domain(test_url))
-    d.add_address(test_url)
+    d = Domain(test_url)
     print(d.visit_urls(['most']))

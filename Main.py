@@ -7,7 +7,7 @@ from keywords_pseudo import *
 class Scraper:
     def __init__(self, seed):
         # list of domains
-        self.domains = [Domain(get_domain(seed))]
+        self.domains = [Domain(seed)]
         self.visited_domains = set()
         self.job_urls = []
 
@@ -22,13 +22,17 @@ class Scraper:
             return True
         return False
 
-    def visit_domains(self):
+    def visit_domains(self, keywords):
         while not self.terminated():
             domain = self.domains.pop(0)
-            self.visited_domains += [domain]
-            domain.visit_urls()  # visits all pages in domain and returns a list of new domains that are found
-            # and a list of relevant urls
-            new_domains, relevant_urls = domain.visit_urls()
+            self.visited_domains.update([domain])
+            outside_urls = domain.visit_urls(keywords)
+            self.add_domains(outside_urls)
+
+    def add_domains(self,urls):
+        for url in urls:
+            if check_domain(url):
+                self.domains += [Domain(url)]
 
 ALLOWED_DOMAINS = ['.com','.edu','.gov','.net','.org']
 
@@ -175,8 +179,8 @@ if __name__ == "__main__":
     # seeds = get_seeds()
     # keywords = get_keywords()
     # termination_conditions = get_termination_conditions()
-    init_seed = 'https://www.emu.edu/'
-    keywords = ['royal']
+    init_seed = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
+    keywords = ['most']
     scraper = Scraper(init_seed)
     print(scraper.visit_domains(keywords))
 
