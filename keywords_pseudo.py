@@ -39,28 +39,7 @@ def keyword_search(url, keywords):
                 keyword_count[keyword] += 1
                 break
     
-    return create_url_values(url, keyword_count), url_list
-
-
-def create_url_values(url_string, keywords_count):
-    """
-    creates a url object if a keyword is found at least once in page
-    current_url - object name
-    domain      - string address
-    date        - sorting readable time accessed
-    time        - float computer time accessed
-    keyword     - dictionary with keyword and instances
-    url - string of website address
-    Returns url object
-    """
-    """
-    This function is basically just a constructor for a URL class (which should be inside the URL class). We also may 
-    not need the URL class. We have no need to store the date and time that it was accessed because we only ever access 
-    a URL once. The one thing a URL class could do is be able to store the associated keywords with each URL that is 
-    found but that could be done as part of the keyword_search function. -- David
-    """
-    current_url = url.URL(datetime.date, keywords_count, url_string)
-    return current_url
+    return URL(datetime.date, keywords_count, url), url_list
 
 
 def collect_url(bsObj):
