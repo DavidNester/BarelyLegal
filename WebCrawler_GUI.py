@@ -14,11 +14,13 @@ class Window(Frame):
         self.init_window()
 
     def init_window(self):
-        self.master.title("WebCrawler")
+        self.master.title("Web Crawler")
         self.pack(fill=BOTH,expand=1)
         #self.configure(background="black")
 
-        lbl = Label(self, text = 'welcome label')
+        #self.customFont = font(family="Helvetica", size=12)
+        
+        lbl = Label(self, text = 'Software Engineering 2017 - Web Crawler', font=(None,15))
         lbl.pack()
         #lbl.place(x=150,y=5)
 
@@ -30,7 +32,7 @@ class Window(Frame):
         self.btn_enter.pack()
         #btn.place(x=150,y=45)
 
-        self.btn_next = Button(self, text='next',command=self.keywords,state=DISABLED)
+        self.btn_next = Button(self, text='continue',command=self.keywords,state=DISABLED)
         self.btn_next.pack()
         
         self.lbl_msg = Label(self, text = 'enter seed(s) in box above')
@@ -58,10 +60,10 @@ class Window(Frame):
         url = self.ent.get().lower()
         self.ent.delete(0,'end')
         if check_domain(url):
-            self.lbl_msg.config(text = url + ' added to seeds\nAdd another seed or next to continue')
+            self.lbl_msg.config(text = url + ' added to seeds\nAdd another seed or continue to continue')
             self.lbl_msg.pack()
             seeds.append(url)
-            self.btn_next.config(text='next',command=self.keywords,state='normal')
+            self.btn_next.config(text='continue',command=self.keywords,state='normal')
             self.btn_next.pack()
         elif len(seeds) == 0 and url == '':
             self.lbl_msg.config(text = 'Error: must have at least one nonempty seed')
@@ -75,13 +77,13 @@ class Window(Frame):
         
         keyword = self.ent.get()
         self.ent.delete(0,'end')
-
+        print([keyword])
         if keyword == '':
             self.lbl_msg.config(text = 'Insert nonempty keyword value')
         else:
             self.btn_next.config(state='normal')
             keywords.append(keyword)
-            self.lbl_msg.config(text = keyword + ' added to keywords\nAdd another keyword or next to continue')
+            self.lbl_msg.config(text = keyword + ' added to keywords\nAdd another keyword or continue to continue')
             self.lbl_msg.pack()
             
     def check_termination_value(self):
@@ -153,7 +155,7 @@ class Window(Frame):
         
     def keywords(self):
         #print('in keywords')
-        self.btn_next.config(text='next',command=self.termination,state=DISABLED)
+        self.btn_next.config(text='continue',command=self.termination,state=DISABLED)
         self.btn_next.pack()
         self.lbl_msg.config(text = 'Insert keyword(s) to search for')# = Label(self, text = url + ' added')
         self.lbl_msg.pack()
@@ -198,6 +200,7 @@ def check_domain(address):
 root = Tk()
 root.geometry("500x200")
 app = Window(root)
+root.attributes("-topmost",True)
 
 root.mainloop()
 print(seeds)
