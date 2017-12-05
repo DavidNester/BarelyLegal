@@ -10,24 +10,31 @@ To run, this code needs one parameter "url" that is the address of each webpage.
 """
 
 
-def keyword_search(url, keywords):
+def connect(address):
     """
     Checks for instances of keywords on page and finds other urls on page
-    Returns whether keywords were found and list of urls found on page
+    returns: False if no connection is made and otherwise a bs_object.
     """
     ctx = ssl._create_unverified_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
     try:
-        html = urlopen(url, context=ctx)
+        html = urlopen(address, context=ctx)
     except:
         return False
-    
 
     bsObj = BeautifulSoup(html.read(),"html.parser")
-    bsObj = bsObj.get_text().lower() 
+    return bsObj
+
+def parse_page(bsObj,keywords,address):
+    '''
+    param bsObj:
+    return: new urls and url
+    '''
+    bsObj = bsObj.get_text().lower()
     mywords = bsObj.split()
     url_list = collect_url(bsObj)
+
     keywords_found = False
     keyword_count = {i:0 for i in keywords}
     print(keyword_count)
@@ -38,8 +45,9 @@ def keyword_search(url, keywords):
                 keywords_found = True
                 keyword_count[keyword] += 1
                 break
-    
-    return URL(datetime.date, keywords_count, url), url_list
+
+    new_url = url.URL(datetime.date, keyword_count, address)
+    return new_url, url_list
 
 
 def collect_url(bsObj):
@@ -48,4 +56,5 @@ def collect_url(bsObj):
 
 
 if __name__ == "__main__":
-    print(keyword_search("https://www.emu.edu", ["Eastern", "Mennonite"])[0])
+    #print(keyword_search("https://www.emu.edu", ["Eastern", "Mennonite"])[0])
+    pass
