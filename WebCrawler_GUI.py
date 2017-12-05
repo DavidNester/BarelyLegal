@@ -13,10 +13,7 @@ class Window(Frame):
         self.master = master
         self.init_window()
 
-    
-    
     def init_window(self):
-
         self.master.title("WebCrawler")
         self.pack(fill=BOTH,expand=1)
         #self.configure(background="black")
@@ -47,9 +44,6 @@ class Window(Frame):
         file = Menu(menu)
         file.add_command(label='Exit',command=self.client_exit)
         menu.add_cascade(label='Menu',menu=file)
-
-
-        
 
     def client_exit(self):
         exit()
@@ -91,12 +85,12 @@ class Window(Frame):
             self.lbl_msg.pack()
             
     def check_termination_value(self):
-        print("check_termination_value")
+        #print("check_termination_value")
         global termination
 
         value = self.ent.get()
         self.ent.delete(0,'end')
-        print(value)
+        #print(value)
         if termination[-1] == '1':
             try:
                 value = int(value)
@@ -124,7 +118,7 @@ class Window(Frame):
         
         
     def get_termination_value(self):
-        print("get_termination_value")
+        #print("get_termination_value")
         global termination
         self.btn_enter.config(command=self.check_termination_value)
         self.btn_enter.pack()
@@ -139,11 +133,11 @@ class Window(Frame):
             self.lbl_msg.pack()
         
     def get_termination(self):
-        print("get_termination")
+        #print("get_termination")
         global termination
         choice = self.ent.get()
         self.ent.delete(0,'end')
-        print(choice)
+        #print(choice)
         if choice == '1' or choice == '2' or choice == '4':
             # time limit or number of pages or number of jobs
             termination.append(choice)
@@ -151,14 +145,14 @@ class Window(Frame):
         elif choice == '3':
             # until list is out of pages
             termination = ['3',seeds]
-            
+            self.done()
         else:
             #print("Error: Insert valid termination condition")
             self.lbl_msg.config(text = 'Error: Insert valid termination condition\nEnter the number cooresponding to your termination choice:\n1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs')
             self.lbl_msg.pack()
         
     def keywords(self):
-        print('in keywords')
+        #print('in keywords')
         self.btn_next.config(text='next',command=self.termination,state=DISABLED)
         self.btn_next.pack()
         self.lbl_msg.config(text = 'Insert keyword(s) to search for')# = Label(self, text = url + ' added')
@@ -168,7 +162,7 @@ class Window(Frame):
 
 
     def termination(self):
-        print('in termination')
+        #print('in termination')
         self.btn_next.pack_forget()
         self.lbl_msg.config(text = 'Enter the number cooresponding to your termination choice:\n1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs')
         self.lbl_msg.pack()
@@ -177,18 +171,18 @@ class Window(Frame):
         self.btn_enter.pack()
 
     def done(self):
-        print("start web scraping")
+        #print("start web scraping")
         self.lbl_msg.pack()
         self.btn_enter.config(state=DISABLED)
         self.btn_enter.pack()
         
         self.destroy()
 
-        self.lbl_msg=Label(text = 'where are we putting the results?')
-        self.lbl_msg.place(x=50,y=50)
+        self.lbl_msg1 = Label(text = 'Seeds, keywords and termination accepted\nClose this window to run program')
+        self.lbl_msg1.pack()
+        self.destroy()
+
         
-        self.lbl_brandon = Label(text='Brandon is in charge of making this look pretty')
-        self.lbl_brandon.place(x=100,y=100)
         
 def check_domain(address):
     '''
@@ -202,7 +196,10 @@ def check_domain(address):
         
     
 root = Tk()
-root.geometry("500x300")
+root.geometry("500x200")
 app = Window(root)
 
 root.mainloop()
+print(seeds)
+print(keywords)
+print(termination)
