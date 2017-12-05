@@ -121,7 +121,7 @@ class Domain:
         return False
 
 if __name__ == '__main__':
-    test_url = 'tp://webscraper.io/test-sites/e-commerce/allinone'
+    test_url = 'http://webscraper.io/test-sites/e-commerce/allinone'
     #test_url = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
     d = Domain(get_domain(test_url))
     d.add_address(test_url)
