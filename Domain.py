@@ -24,6 +24,12 @@ def get_domain(url):
 
 class Domain:
     def __init__(self, url):
+        """
+        Initializes domain object
+        :param self: domain object
+        :param url: url object
+        Return ?
+        """
         domain = get_domain(url)
         self.domain = domain  # The domain address (facebook.com)
         self.time = time.time()
@@ -64,7 +70,11 @@ class Domain:
 
     def visit_urls(self, keywords, scraper):
         '''
-        :return: Set of knew urls
+        Adds new urls to urls to visit
+        :param: Unvisited urls
+        :param keywords: User defined keywords
+        :param scraper: scraper object
+        :return: Set of new urls
         '''
         outside_urls = set()
         while len(self.urls_to_visit) > 0 and not scraper.terminated:
@@ -80,6 +90,9 @@ class Domain:
 
 
     def __eq__(self, other):
+        """
+        Rewrites
+        """
         return self.domain == other.domain
 
     def __hash__(self):
