@@ -1,22 +1,22 @@
 from Brandon import *
-
+from keywords import *
 import time
 from urllib import robotparser
 from urllib.parse import urlparse
 import datetime
 from urllib.request import urlopen
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, SoupStrainer
 import ssl
 from url import URL
 import re
 
 
 def get_domain(url):
-    """
+    '''
     gets domain of URL
     :param url: string url that we want to get domain from
     :return: domain of url
-    """
+    '''
     parsed_uri = urlparse(url)
     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
     return domain
@@ -38,8 +38,7 @@ class Domain:
 
     def add_address(self, url):
         '''
-        Checks if a url of the domain can be added to
-        the list of urls to visit.
+        Checks if a url of the domain can be added to the list of urls to visit.
         url: the new address to be added
         return: true if the address is in the domain.
         '''
@@ -62,14 +61,18 @@ class Domain:
 
     def visit_urls(self, keywords):
         '''
-        :return: Set of knew urls
+        return: Set of knew urls
         '''
         outside_urls = set()
         while len(self.urls_to_visit) > 0:
             address = self.urls_to_visit.pop(0)
-            url, new_urls = self.keyword_search(address,keywords)
-            self.urls_visited.update(address)
-            append_to_log(url)
+            bs_obj = connect(address)
+            if isinstance(bs_obj,bool) and bs_obj == False:
+                print(address, 'is not valid')
+            else:
+                url, new_urls = parse_page(address,keywords)
+                self.urls_visited.update(address)
+                append_to_log(url)
 
             for nurl in new_urls:
                 if not(self.add_address(nurl)):
@@ -80,10 +83,6 @@ class Domain:
     def __eq__(self, other):
         return self.domain == other.domain
 
-    def collect_url(self, url, text):
-        urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
-        return urls
-
     def has_next_url(self):
         '''
         Check URL to make sure that it meets all of the criteria. Not already visited,
@@ -91,7 +90,7 @@ class Domain:
         return: True if the site is valid, False otherwise
         '''
         address = self.urls_to_visit.pop(0)
-        if not(self.can_visit(address)):
+        if not(self._can_visit(address)):
             return False
         not_accepted = ['.js','.php']
         if not_accepted in address:
@@ -103,39 +102,16 @@ class Domain:
             time.sleep(self.wait_time - (time.time() - self.time()))
         return True
 
-    def can_visit(self, url):
+    def _can_visit(self, url):
         #self.rp.allow_all = True
         if self.rp.can_fetch("*", url):
             return True
         return False
 
-    def keyword_search(self, address, keywords):
-        '''
-        Reads website and finds instances of keywords
-        address: string of url
-        returns
-        '''
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        html = urlopen(address, context=ctx)
-
-        bsObj = BeautifulSoup(html.read(), "html.parser")
-        bsObj = bsObj.get_text()
-        mywords = bsObj.split()
-        url_list = []
-
-        url = URL(date = datetime.date, address = address)
-
-        # Count the number of keywords and save in url.keywords dict
-        for keyword in keywords:
-            url.keywords[keyword] = mywords.count(keyword)
-
-        return url, self.collect_url(address, str(bsObj))
-
 if __name__ == '__main__':
-    #test_url = 'http://webscraper.io/test-sites/e-commerce/allinone'
-    test_url = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
-    d = Domain(get_domain(test_url),['most'])
+    test_url = 'tp://webscraper.io/test-sites/e-commerce/allinone'
+    #test_url = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
+    d = Domain(get_domain(test_url))
     d.add_address(test_url)
-    d.visit_urls()
+    keywords = ['most']
+    d.visit_urls(keywords)
