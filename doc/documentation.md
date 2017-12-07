@@ -24,6 +24,9 @@ Doing so will yield the following screen
 
 - Enter keyword, then click **enter** button
   - Repeat until all keywords are entered
+  
+![Image 3](./Resources/3.JPG)
+
 - Click **continue** to move to next step
 ### 4. Supply termination choice
 ### 5. Supply termination value
