@@ -25,15 +25,16 @@ class Scraper:
         4 -- Collected sufficient number of jobs
         :return: True if should stop looking. False else
         """
-        if self.terminate_cond == 1:
+        if self.terminate_cond == '1':
             if time.time() - self.start_time > self.termination_value:
                 return True
-        elif self.terminate_cond == 2:
+        elif self.terminate_cond == '2':
             return False # may be tricky to implement
-        elif self.terminate_cond == 3:
+        elif self.terminate_cond == '3':
+            # this isn't quite right
             if len(self.domains) == 0:
                 return True
-        elif self.terminate_cond == 4:
+        elif self.terminate_cond == '4':
             if len(self.job_urls) >= self.termination_value:
                 return True
         return False
