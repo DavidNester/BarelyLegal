@@ -36,6 +36,7 @@ class Domain:
         self.rp.set_url(domain + "/robots.txt")
         self.rp.read()
         self.wait_time = self.rp.crawl_delay("*")
+        print(self.wait_time)
         if self.wait_time is None:
             self.wait_time = 15
         self.add_address(url)
@@ -101,7 +102,7 @@ class Domain:
         address = self.urls_to_visit.pop(0)
         if not(self.can_visit(address)):
             return False
-        not_accepted = ['.js','.php']
+        not_accepted = ['.js','.php','.css']
         if not_accepted in address:
             return False
         elif address in self.urls_visited:

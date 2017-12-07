@@ -84,7 +84,7 @@ def check_termination(cond_num, current_val, termination_val):
 
 
 if __name__ == "__main__":
-    # init_seed = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
+    # seeds = ['https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/']
     keywords = ['most']
     seeds, keywords, terminate_cond = user_input.run()
     scraper = Scraper(seeds,terminate_cond[0],terminate_cond[1])
