@@ -7,9 +7,8 @@ import time
 
 
 class Scraper:
-    #def __init__(self, seeds, termination_cond, termination_data):
-    def __init__(self, seeds, termination_cond):
-        #TODO: make a list of seeds
+    #def __init__(self, seeds, termination_cond):
+    def __init__(self, seeds, termination_cond, termination_data):
         self.domains = []
         self.visited_domains = set()
         self.job_urls = []
@@ -26,10 +25,6 @@ class Scraper:
         4 -- Collected sufficient number of jobs
         :return: True if should stop looking. False else
         """
-        if len(self.visited_domains) > 1:
-            return True
-        return False
-        """
         if self.termination_cond == 1:
             if time.time() - self.start_time > self.termination_value:
                 return True
@@ -38,12 +33,10 @@ class Scraper:
         elif self.terminate_cond == 3:
             if len(self.domains) == 0:
                 return True
-        elif self.terminate_cond == 4
+        elif self.terminate_cond == 4:
             if len(self.job_urls) >= self.termination_value:
                 return True
         return False
-        """
-
 
     def visit_domains(self, keywords):
         while not self.terminated() and len(self.domains) > 0:
@@ -94,5 +87,5 @@ if __name__ == "__main__":
     # init_seed = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
     keywords = ['most']
     seeds, keywords, terminate_cond = user_input.run()
-    scraper = Scraper(seeds,termination_cond)
+    scraper = Scraper(seeds,termination_cond[0],terminate_cond[1])
     scraper.visit_domains(keywords)
