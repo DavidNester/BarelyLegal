@@ -36,7 +36,6 @@ class Domain:
         self.rp.set_url(domain + "/robots.txt")
         self.rp.read()
         self.wait_time = self.rp.crawl_delay("*")
-        print(self.wait_time)
         if self.wait_time is None:
             self.wait_time = 15
         self.add_address(url)
@@ -71,9 +70,10 @@ class Domain:
         '''
         outside_urls = set()
         print(self.urls_to_visit, scraper.terminated())
-        while len(self.urls_to_visit) > 0 and not scraper.terminated():
-            address = self.urls_to_visit.pop(0)
+        while self.has_next_url() and not scraper.terminated():
+            address = self.get_next_url()
             url, new_urls = keyword_search(address,keywords)
+            print(address)
             self.urls_visited.update(address)
             if url is not None:
                 append_to_log(url)
@@ -96,21 +96,28 @@ class Domain:
     def has_next_url(self):
         '''
         Check URL to make sure that it meets all of the criteria. Not already visited,
-        not .js or .php, and met domain wait time.
+        not .js, .php, or .css and met domain wait time.
         return: True if the site is valid, False otherwise
         '''
-        address = self.urls_to_visit.pop(0)
+        address = self.urls_to_visit[0]
         if not(self.can_visit(address)):
             return False
         not_accepted = ['.js','.php','.css']
-        if not_accepted in address:
-            return False
-        elif address in self.urls_visited:
+        for ending in not_accepted:
+            if ending in address:
+                return False
+        if address in self.urls_visited:
             return False
         while (time.time() - self.time) <= self.wait_time:
             print('Waiting ', self.wait_time - (time.time() - self.time), ' seconds for', address)
-            time.sleep(self.wait_time - (time.time() - self.time()))
+            time.sleep(self.wait_time - (time.time() - self.time))
         return True
+
+    def get_next_url(self):
+        '''
+        return - the next url
+        '''
+        return self.urls_to_visit.pop(0)
 
     def can_visit(self, url):
         #self.rp.allow_all = True
