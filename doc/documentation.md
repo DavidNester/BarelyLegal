@@ -5,6 +5,7 @@ Software Engineering Class 2017 @ EMU
 
 ### 1. Run the Python file labeled **main.py**
 Doing so will yield the following screen
+
 ![Image 1](./Resources/1.JPG)
 ### 2. Supply seed(s)
 ![Image 2](./Resources/2.JPG)
