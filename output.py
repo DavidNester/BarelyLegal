@@ -3,7 +3,7 @@ import url
 import csv
 
 # Global variables to store log state
-MAX_WRITE_BUFFER = 0
+MAX_WRITE_BUFFER = 1 # change to 5
 FILE_NAME = 'log.csv'
 data_to_write = {}
 
@@ -36,19 +36,23 @@ def _write_to_log(data):
 def convert_csv_to_json():
     """
     Converts the log file into JSON format
-    Returns void
+    Returns true if the file was converted, false otherwise
     """
     result = {}
-    with open(FILE_NAME, 'r', newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        for row in reader:
-            print(row)
-            for entry_id in range(len(row)):
-                row[entry_id] = row[entry_id].replace("'", "\"")
-            result[row[0]] = [json.loads(row[1])] + [row[2]]
+    try:
+        with open(FILE_NAME, 'r', newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                print(row)
+                for entry_id in range(len(row)):
+                    row[entry_id] = row[entry_id].replace("'", "\"")
+                result[row[0]] = [json.loads(row[1])] + [row[2]]
+    except FileNotFoundError:
+        print('Could not find csv')
+        return False
     with open('log.json', 'w+') as output_file:
         json.dump(result, output_file)
-
+        return True
 
 if __name__ == "__main__":
     # Only for testing:

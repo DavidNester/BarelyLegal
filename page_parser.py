@@ -23,12 +23,12 @@ def keyword_search(address, keywords):
         html = urlopen(address, context=ctx)
     except:
         #returns empty url object and no new addresses
+        print(address, 'failed to open.')
         return url.URL("", {i: 0 for i in keywords}, address), []
 
     bsObj = BeautifulSoup(html.read(), "html.parser")
     bsObj = bsObj.get_text().lower()
     mywords = bsObj.split()
-    print('303030')
     url_list = collect_url(bsObj)
     keywords_found = False
     keyword_count = {i: 0 for i in keywords}
@@ -41,7 +41,7 @@ def keyword_search(address, keywords):
                 keyword_count[keyword] += 1
                 break
 
-    return url.URL(str(datetime.date), keyword_count, address), url_list
+    return url.URL(datetime.datetime.now(), keyword_count, address), url_list
 
 
 def collect_url(bsObj):

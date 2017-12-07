@@ -4,6 +4,7 @@ from domain import Domain, get_domain
 from page_parser import *
 import user_input
 import time
+import output
 
 
 class Scraper:
@@ -50,7 +51,7 @@ class Scraper:
             try:
                 if check_domain(url):
                     self.domains += [Domain(url)]
-            except:
+            except ValueError:
                 print("Invalid domain")
 
 ALLOWED_DOMAINS = ['.com','.edu','.gov','.net','.org']
@@ -84,8 +85,15 @@ def check_termination(cond_num, current_val, termination_val):
 
 
 if __name__ == "__main__":
-    # seeds = ['https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/']
-    keywords = ['most']
-    seeds, keywords, terminate_cond = user_input.run()
-    scraper = Scraper(seeds,terminate_cond[0],terminate_cond[1])
-    scraper.visit_domains(keywords)
+    #'''
+    seeds = ['https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/']
+    keywords = ['the','and']
+    terminate_cond = ['3',0] # go until list is empty
+    #'''
+    #seeds, keywords, terminate_cond = user_input.run()
+    try:
+        scraper = Scraper(seeds,terminate_cond[0],terminate_cond[1])
+        scraper.visit_domains(keywords)
+    finally:
+        print("Broken")
+        output.convert_csv_to_json()
