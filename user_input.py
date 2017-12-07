@@ -1,13 +1,18 @@
 from tkinter import *
+url = ''
+seeds = []
+ALLOWED_DOMAINS = ['.com', '.edu', '.gov', '.net', '.org']
+keywords = []
+termination = []
 
 def run():
     # http://usingpython.com/using-tkinter/
+    global url, seeds, ALLOWED_DOMAINS, keywords, termination
     url = ''
     seeds = []
     ALLOWED_DOMAINS = ['.com', '.edu', '.gov', '.net', '.org']
     keywords = []
     termination = []
-
 
     class Window(Frame):
         def __init__(self, master=None):
@@ -151,7 +156,7 @@ def run():
             else:
                 # print("Error: Insert valid termination condition")
                 self.lbl_msg.config(
-                    text='Error: Insert valid termination condition\nEnter the number cooresponding to your termination choice:\n1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs')
+                    text='Error: Insert valid termination condition\nEnter the number corresponding to your termination choice:\n1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs')
                 self.lbl_msg.pack()
 
         def keywords(self):
@@ -204,4 +209,4 @@ def run():
 
     root.mainloop()
 
-    return seeds,keywords,termination
+    return seeds, keywords, termination
