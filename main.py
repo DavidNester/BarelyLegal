@@ -6,13 +6,13 @@ import user_input
 
 
 class Scraper:
-    def __init__(self, seed, termination_cond):
+    def __init__(self, seeds, termination_cond):
         #TODO: make a list of seeds
-        # list of domains
-        self.domains = [Domain(seed)]
+        self.domains = []
         self.visited_domains = set()
         self.job_urls = []
         self.termination_cond = termination_cond
+        self.add_domains(seeds)
 
     def terminated(self):
         """
@@ -35,8 +35,11 @@ class Scraper:
 
     def add_domains(self,urls):
         for url in urls:
-            if check_domain(url):
-                self.domains += [Domain(url)]
+            try:
+                if check_domain(url):
+                    self.domains += [Domain(url)]
+            except:
+                print("Invalid domain")
 
 ALLOWED_DOMAINS = ['.com','.edu','.gov','.net','.org']
 
@@ -72,10 +75,5 @@ if __name__ == "__main__":
     # init_seed = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
     keywords = ['most']
     seeds, keywords, terminate_cond = user_input.run()
-    for seed in seeds:
-        try:
-            scraper = Scraper(seed,terminate_cond)
-        except ValueError:
-            print("Invalid seed")
-        else:
-            scraper.visit_domains(keywords)
+    scraper = Scraper(seeds,termination_cond)
+    scraper.visit_domains(keywords)
