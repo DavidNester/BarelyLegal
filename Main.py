@@ -24,6 +24,9 @@ class Scraper:
         return False
 
     def visit_domains(self, keywords):
+        """
+        
+        """
         while not self.terminated() and len(self.domains) > 0:
             domain = self.domains.pop(0)
             self.visited_domains.update([domain])
