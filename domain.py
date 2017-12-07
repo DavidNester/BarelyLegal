@@ -1,5 +1,5 @@
-from Brandon import *
-from keywords import *
+from output import *
+from parser import *
 
 import time
 from urllib import robotparser

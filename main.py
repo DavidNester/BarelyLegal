@@ -1,7 +1,7 @@
 # main file import relevant functions from each persons file
 # add them all to this file at the end
-from Domain import Domain, get_domain
-from keywords import *
+from domain import Domain, get_domain
+from parser import *
 
 
 class Scraper:
