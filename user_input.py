@@ -167,7 +167,7 @@ def run():
             # print('in termination')
             self.btn_next.pack_forget()
             self.lbl_msg.config(
-                text='Enter the number cooresponding to your termination choice:\n1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs')
+                text='Enter the number corresponding to your termination choice:\n1. Time limit\n2. Number of pages\n3. Until out of pages\n4. Collected a sufficient number of jobs')
             self.lbl_msg.pack()
 
             self.btn_enter.config(text='enter', command=self.get_termination)

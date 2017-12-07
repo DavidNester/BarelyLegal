@@ -3,9 +3,11 @@
 from domain import Domain, get_domain
 from page_parser import *
 import user_input
+import time
 
 
 class Scraper:
+    #def __init__(self, seeds, termination_cond, termination_data):
     def __init__(self, seeds, termination_cond):
         #TODO: make a list of seeds
         self.domains = []
@@ -13,18 +15,35 @@ class Scraper:
         self.job_urls = []
         self.termination_cond = termination_cond
         self.add_domains(seeds)
+        self.termination_value = None #termination_data
+        self.start_time = time.time()
 
     def terminated(self):
         """
-        ***This should be combined with austins function below***
-        This method will decide if we should terminate based on our conditions
-        Currently defaulted to just visit one domain
-        Can customize later to handle different conditions
+        1 -- Time Limit
+        2 -- Number of Pages
+        3 -- Until out of Pages
+        4 -- Collected sufficient number of jobs
         :return: True if should stop looking. False else
         """
         if len(self.visited_domains) > 1:
             return True
         return False
+        """
+        if self.termination_cond == 1:
+            if time.time() - self.start_time > self.termination_value:
+                return True
+        elif self.terminate_cond == 2:
+            return False # may be tricky to implement
+        elif self.terminate_cond == 3:
+            if len(self.domains) == 0:
+                return True
+        elif self.terminate_cond == 4
+            if len(self.job_urls) >= self.termination_value:
+                return True
+        return False
+        """
+
 
     def visit_domains(self, keywords):
         while not self.terminated() and len(self.domains) > 0:
