@@ -25,9 +25,18 @@ Doing so will yield the following screen
 - Enter keyword, then click **enter** button
   - Repeat until all keywords are entered
   
-![Image 3](./Resources/3.JPG)
+![Image 5](./Resources/5.JPG)
 
 - Click **continue** to move to next step
 ### 4. Supply termination choice
+![Image 6](./Resources/6.JPG)
+
+- Enter number to cooresponding termination choice, then click **enter** button
+
 ### 5. Supply termination value
+![Image 7](./Resources/7.JPG)
+
+- Enter value for cooresponding termination condition if necessary, then click **enter** button
 ### 6. Close window
+![Image 8](./Resources/8.JPG)
+- Press the red exit button in the top right corner of the window to start program
