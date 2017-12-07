@@ -41,7 +41,7 @@ def keyword_search(address, keywords):
                 keyword_count[keyword] += 1
                 break
 
-    return url.URL(datetime.date, keyword_count, address), url_list
+    return url.URL(str(datetime.date), keyword_count, address), url_list
 
 
 def collect_url(bsObj):
