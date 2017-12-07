@@ -6,7 +6,7 @@ from urllib import robotparser
 from urllib.parse import urlparse
 import datetime
 from urllib.request import urlopen
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
 import ssl
 from url import URL
 import re
@@ -14,12 +14,14 @@ import re
 
 def get_domain(url):
     """
-    gets domain of URL
+    gets domain of URL. Raises value error on invalid domain.
     :param url: string url that we want to get domain from
     :return: domain of url
     """
     parsed_uri = urlparse(url)
     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
+    if len(domain) > 8 and domain[:7] != 'http://' and domain[:8] != 'https://':
+        raise ValueError
     return domain
 
 
@@ -31,12 +33,11 @@ class Domain:
         self.urls_to_visit = []
         self.urls_visited = set()
         self.rp = robotparser.RobotFileParser()
-        # What happens if no robots.txt is found?
         self.rp.set_url(domain + "/robots.txt")
         self.rp.read()
         self.wait_time = self.rp.crawl_delay("*")
         if self.wait_time is None:
-            self.wait_time = 0
+            self.wait_time = 15
         self.add_address(url)
 
     def add_address(self, url):
@@ -68,7 +69,8 @@ class Domain:
         :return: set of new urls
         '''
         outside_urls = set()
-        while len(self.urls_to_visit) > 0 and not scraper.terminated:
+        print(self.urls_to_visit, scraper.terminated())
+        while len(self.urls_to_visit) > 0 and not scraper.terminated():
             address = self.urls_to_visit.pop(0)
             url, new_urls = keyword_search(address,keywords)
             self.urls_visited.update(address)
@@ -77,6 +79,7 @@ class Domain:
             for nurl in new_urls:
                 if not(self.add_address(nurl)):
                     outside_urls.update(nurl)
+        print(outside_urls)
         return outside_urls
 
 
@@ -88,10 +91,6 @@ class Domain:
 
     def __str__(self):
         return self.domain
-
-    def collect_url(self, url, text):
-        urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
-        return urls
 
     def has_next_url(self):
         '''

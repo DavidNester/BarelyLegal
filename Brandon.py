@@ -4,7 +4,7 @@ import datetime
 import csv
 
 # Global variables to store log state
-MAX_WRITE_BUFFER = 5
+MAX_WRITE_BUFFER = 0
 FILE_NAME = 'log.csv'
 data_to_write = {}
 
@@ -17,7 +17,7 @@ def append_to_log(url_object):
 	"""
 	global data_to_write
 	data_to_write[url_object.address] = [url_object.keywords, url_object.date]
-	if len(data_to_write) == MAX_WRITE_BUFFER:
+	if len(data_to_write) >= MAX_WRITE_BUFFER:
 		_write_to_log(data_to_write)
 		data_to_write = {}
 

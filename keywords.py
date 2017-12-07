@@ -1,6 +1,6 @@
 import datetime
 from urllib.request import urlopen
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, SoupStrainer
 import ssl
 import url
 import re
@@ -14,7 +14,7 @@ To run, this code needs one parameter "url" that is the address of each webpage.
 def keyword_search(address, keywords):
     """
     Checks for instances of keywords on page and finds other urls on page
-    Returns whether keywords were found and list of urls found on page
+    return: url keywords were found and list of urls found on page
     """
     ctx = ssl._create_unverified_context()
     ctx.check_hostname = False
@@ -22,11 +22,13 @@ def keyword_search(address, keywords):
     try:
         html = urlopen(address, context=ctx)
     except:
-        return False
+        #returns empty url object and no new addresses
+        return url.URL("", {i: 0 for i in keywords}, address), []
 
     bsObj = BeautifulSoup(html.read(), "html.parser")
     bsObj = bsObj.get_text().lower()
     mywords = bsObj.split()
+    print('303030')
     url_list = collect_url(bsObj)
     keywords_found = False
     keyword_count = {i: 0 for i in keywords}
@@ -43,9 +45,11 @@ def keyword_search(address, keywords):
 
 
 def collect_url(bsObj):
+    print('here')
     urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', bsObj)
+    print(urls)
     return urls
 
 
 if __name__ == "__main__":
-    print(keyword_search("https://www.emu.edu", ["Eastern", "Mennonite"])[0])
+    print(keyword_search("www.emu.edu", ["Eastern", "Mennonite"])[0])
