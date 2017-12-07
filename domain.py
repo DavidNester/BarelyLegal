@@ -1,5 +1,5 @@
 from output import *
-from parser import *
+from page_parser import *
 
 import time
 from urllib import robotparser
@@ -118,8 +118,5 @@ class Domain:
         return False
 
 if __name__ == '__main__':
-    #test_url = 'http://webscraper.io/test-sites/e-commerce/allinone'
-    test_url = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
-    d = Domain(test_url)
-    keywords = ['most']
-    print(d.visit_urls(keywords))
+    print("Domain file stores all of the urls of one domain in lists"
+          " either visited or to visit.")
