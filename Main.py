@@ -6,6 +6,7 @@ from keywords import *
 
 class Scraper:
     def __init__(self, seed):
+        #TODO: make a list of seeds
         # list of domains
         self.domains = [Domain(seed)]
         self.visited_domains = set()
@@ -182,5 +183,9 @@ if __name__ == "__main__":
     # termination_conditions = get_termination_conditions()
     init_seed = 'https://www.techrepublic.com/article/transform-plain-text-files-into-web-pages-automatically-with-this-php-script/'
     keywords = ['most']
-    scraper = Scraper(init_seed)
-    scraper.visit_domains(keywords)
+    try:
+        scraper = Scraper(init_seed)
+    except ValueError:
+        print("Invalid seed")
+    else:
+        scraper.visit_domains(keywords)
