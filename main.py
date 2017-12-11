@@ -101,5 +101,3 @@ if __name__ == "__main__":
 
 # David things to address:
 # Termination conditions 2 and 3
-# Make sure it is getting more pages
-# Make sure it is getting correct number of words
