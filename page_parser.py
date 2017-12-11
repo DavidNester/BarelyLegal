@@ -27,24 +27,30 @@ def keyword_search(address, keywords):
         return url.URL("", {i: 0 for i in keywords}, address), []
 
     bsObj = BeautifulSoup(html.read(), "html.parser")
+    url_list = collect_url(bsObj,address)
     bsObj = bsObj.get_text().lower()
     mywords = bsObj.split()
-    url_list = collect_url(bsObj)
     keyword_count = {i: 0 for i in keywords}
-    print(keyword_count)
     for keyword in keywords:
         # Currently set to break the loop if any keyword is found and add the url to the list to be returned
         for word in mywords:
             if keyword.lower() == word:
                 keyword_count[keyword] += 1
                 #break
-    print(keyword_count)
 
     return url.URL(datetime.datetime.now(), keyword_count, address), url_list
 
 
-def collect_url(bsObj):
-    urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', bsObj)
+def collect_url(bsObj,address):
+    if address[-1] == '/':
+        address = address[:-1]
+    urls = []
+    for link in bsObj.find_all('a', href=True):
+        new_add = link['href']
+        if 'http' in new_add:
+            urls += [new_add]
+        elif new_add[0] == '/':
+            urls += [address+new_add]
     print(urls)
     return urls
 
