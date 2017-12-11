@@ -30,16 +30,15 @@ def keyword_search(address, keywords):
     bsObj = bsObj.get_text().lower()
     mywords = bsObj.split()
     url_list = collect_url(bsObj)
-    keywords_found = False
     keyword_count = {i: 0 for i in keywords}
     print(keyword_count)
     for keyword in keywords:
         # Currently set to break the loop if any keyword is found and add the url to the list to be returned
         for word in mywords:
             if keyword.lower() == word:
-                keywords_found = True
                 keyword_count[keyword] += 1
-                break
+                #break
+    print(keyword_count)
 
     return url.URL(datetime.datetime.now(), keyword_count, address), url_list
 

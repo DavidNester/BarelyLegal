@@ -37,7 +37,7 @@ class Domain:
         self.rp.read()
         self.wait_time = self.rp.crawl_delay("*")
         if self.wait_time is None:
-            self.wait_time = 15
+            self.wait_time = 5
         self.add_address(url)
 
     def add_address(self, url):
@@ -99,7 +99,10 @@ class Domain:
         not .js, .php, or .css and met domain wait time.
         return: True if the site is valid, False otherwise
         '''
-        address = self.urls_to_visit[0]
+        try:
+            address = self.urls_to_visit[0]
+        except:
+            return False
         if not(self.can_visit(address)):
             return False
         not_accepted = ['.js','.php','.css']
@@ -120,7 +123,6 @@ class Domain:
         return self.urls_to_visit.pop(0)
 
     def can_visit(self, url):
-        #self.rp.allow_all = True
         if self.rp.can_fetch("*", url):
             return True
         return False

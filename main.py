@@ -8,7 +8,7 @@ import output
 
 
 class Scraper:
-    #def __init__(self, seeds, termination_cond):
+
     def __init__(self, seeds, terminate_cond, termination_data):
         self.domains = []
         self.visited_domains = set()
@@ -91,10 +91,15 @@ if __name__ == "__main__":
     keywords = ['the','and']
     terminate_cond = ['3',0] # go until list is empty
     #'''
-    #seeds, keywords, terminate_cond = user_input.run()
+    seeds, keywords, terminate_cond = user_input.run()
     try:
         scraper = Scraper(seeds,terminate_cond[0],terminate_cond[1])
         scraper.visit_domains(keywords)
     finally:
         print("Broken")
         output.convert_csv_to_json()
+
+# David things to address:
+# Termination conditions 2 and 3
+# Make sure it is getting more pages
+# Make sure it is getting correct number of words
