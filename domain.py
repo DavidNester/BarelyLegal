@@ -72,6 +72,7 @@ class Domain:
         print(self.urls_to_visit, scraper.terminated())
         while self.has_next_url() and not scraper.terminated():
             address = self.get_next_url()
+            scraper.pages_visited += 1
             url, new_urls = keyword_search(address,keywords)
             print(address)
             self.urls_visited.update(address)

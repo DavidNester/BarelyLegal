@@ -17,6 +17,7 @@ class Scraper:
         self.add_domains(seeds)
         self.termination_value = termination_data
         self.start_time = time.time()
+        self.pages_visited = 0
 
     def terminated(self):
         """
@@ -30,7 +31,8 @@ class Scraper:
             if time.time() - self.start_time > self.termination_value:
                 return True
         elif self.terminate_cond == '2':
-            return False # may be tricky to implement
+            if self.pages_visited >= self.termination_value:
+                return True
         elif self.terminate_cond == '3':
             # this isn't quite right
             if len(self.domains) == 0:
@@ -98,6 +100,3 @@ if __name__ == "__main__":
     finally:
         print("Broken")
         output.convert_csv_to_json()
-
-# David things to address:
-# Termination conditions 2 and 3
