@@ -47,7 +47,9 @@ def collect_url(bsObj,address):
     urls = []
     for link in bsObj.find_all('a', href=True):
         new_add = link['href']
-        if new_add[0] == '/':
+        if len(new_add) == 0:
+            pass
+        elif new_add[0] == '/':
             urls += [address+new_add]
         elif 'http' in new_add:
             urls += [new_add]

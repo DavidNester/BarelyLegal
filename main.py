@@ -29,17 +29,21 @@ class Scraper:
         """
         if self.terminate_cond == '1':
             if time.time() - self.start_time > self.termination_value:
+                print('Reached time limit')
                 return True
         elif self.terminate_cond == '2':
             if self.pages_visited >= self.termination_value:
+                print('Visited enough pages')
                 return True
         elif self.terminate_cond == '3':
             for domain in self.domains:
                 if len(domain.urls_to_visit) > 0:
                     return False
+            print('Out of pages')
             return True
         elif self.terminate_cond == '4':
             if len(self.job_urls) >= self.termination_value:
+                print('Acquired specified number of job URLs')
                 return True
         return False
 

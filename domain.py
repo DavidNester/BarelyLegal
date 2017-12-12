@@ -21,6 +21,7 @@ def get_domain(url):
     parsed_uri = urlparse(url)
     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
     if len(domain) > 8 and domain[:7] != 'http://' and domain[:8] != 'https://':
+        print(domain)
         raise ValueError
     return domain
 
@@ -61,6 +62,7 @@ class Domain:
             print('Not allowed to access url.')
             return True
         else:
+            print('Added to list to visit')
             self.urls_to_visit.append(url)
         return True
 
@@ -69,19 +71,16 @@ class Domain:
         :return: set of new urls
         '''
         outside_urls = set()
-        print(self.urls_to_visit, scraper.terminated())
         while self.has_next_url() and not scraper.terminated():
             address = self.get_next_url()
             scraper.pages_visited += 1
             url, new_urls = keyword_search(address,keywords)
-            print(address)
             self.urls_visited.update(address)
             if url is not None:
                 append_to_log(url)
             for nurl in new_urls:
                 if not(self.add_address(nurl)):
                     outside_urls.update(nurl)
-        print(outside_urls)
         return outside_urls
 
 
