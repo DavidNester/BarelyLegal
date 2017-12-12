@@ -8,6 +8,9 @@ import output
 
 
 class Scraper:
+    """
+    Class for scraping. Given seeds and termination conditions it visits sites
+    """
 
     def __init__(self, seeds, terminate_cond, termination_data):
         self.domains = []
@@ -48,6 +51,10 @@ class Scraper:
         return False
 
     def visit_domains(self, keywords):
+        """
+        Main function:
+        Given keywords, it visits sites until it reaches the termination condition
+        """
         while not self.terminated():
             found = False
             for domain in self.domains:
@@ -62,6 +69,9 @@ class Scraper:
             self.add_domains(outside_urls)
 
     def add_domains(self,urls):
+        """
+        Given list of URLs, add them to other domains
+        """
         for url in urls:
             try:
                 if check_domain(url):
