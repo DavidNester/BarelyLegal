@@ -102,9 +102,11 @@ if __name__ == "__main__":
     terminate_cond = ['3',0] # go until list is empty
     #'''
     seeds, keywords, terminate_cond = user_input.run()
+
     try:
         scraper = Scraper(seeds,terminate_cond[0],terminate_cond[1])
         scraper.visit_domains(keywords)
     finally:
-        print("Broken")
+        print("The program has exited.")
         output.convert_csv_to_json()
+        
