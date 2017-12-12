@@ -43,7 +43,6 @@ def convert_csv_to_json():
         with open(FILE_NAME, 'r', newline='') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
-                print(row)
                 for entry_id in range(len(row)):
                     row[entry_id] = row[entry_id].replace("'", "\"")
                 result[row[0]] = [json.loads(row[1])] + [row[2]]
