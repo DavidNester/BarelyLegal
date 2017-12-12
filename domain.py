@@ -22,6 +22,7 @@ def get_domain(url):
     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
     if len(domain) > 8 and domain[:7] != 'http://' and domain[:8] != 'https://':
         print(domain)
+        #running into error here with URL 'mailto:///'
         raise ValueError
     return domain
 
@@ -66,7 +67,7 @@ class Domain:
             #print('Not allowed to access url.')
             return True
         else:
-            print('Added to list to visit')
+            #print('Added to list to visit')
             self.urls_to_visit.append(url)
         return True
 
