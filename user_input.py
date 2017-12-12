@@ -99,6 +99,8 @@ def run():
             if termination[-1] == '1':
                 try:
                     value = int(value)
+                    if value < 1:
+                        raise ValueError
                     termination.append(value)
                     self.done()
                 except:

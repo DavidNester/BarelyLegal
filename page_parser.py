@@ -53,7 +53,6 @@ def collect_url(bsObj,address):
             urls += [address+new_add]
         elif 'http' in new_add:
             urls += [new_add]
-    print(urls)
     return urls
 
 

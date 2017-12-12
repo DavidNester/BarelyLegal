@@ -35,7 +35,11 @@ class Domain:
         self.urls_visited = set()
         self.rp = robotparser.RobotFileParser()
         self.rp.set_url(domain + "/robots.txt")
-        self.rp.read()
+        try:
+        	self.rp.read()
+        except:
+        	print("Invalid seed")
+        	raise ValueError
         self.wait_time = self.rp.crawl_delay("*")
         if self.wait_time is None:
             self.wait_time = 5
@@ -49,17 +53,17 @@ class Domain:
         return: true if the address is in the domain.
         '''
         if get_domain(url) != self.domain:
-            print('Domain does not belong to this domain instance')
+            #print('Domain does not belong to this domain instance')
             return False
         elif url in self.urls_visited:
-            print('Site already visited')
+            #print('Site already visited')
             return True
         elif url in self.urls_to_visit:
-            print('Already going to visit site')
+            #print('Already going to visit site')
             return True
         elif not(self.can_visit(url)):
             self.urls_visited.add(url)
-            print('Not allowed to access url.')
+            #print('Not allowed to access url.')
             return True
         else:
             print('Added to list to visit')
@@ -81,6 +85,7 @@ class Domain:
             for nurl in new_urls:
                 if not(self.add_address(nurl)):
                     outside_urls.update(nurl)
+        #print("Url's found outside {}: {}".format(self.domain,outside_urls))
         return outside_urls
 
 
@@ -99,9 +104,9 @@ class Domain:
         not .js, .php, or .css and met domain wait time.
         return: True if the site is valid, False otherwise
         '''
-        try:
-            address = self.urls_to_visit[0]
-        except:
+        if len(self.urls_to_visit) > 0:
+        	address = self.urls_to_visit[0]
+        else:
             return False
         if not(self.can_visit(address)):
             return False
