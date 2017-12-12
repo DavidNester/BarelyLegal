@@ -34,16 +34,24 @@ class Scraper:
             if self.pages_visited >= self.termination_value:
                 return True
         elif self.terminate_cond == '3':
-            # this isn't quite right
-            if len(self.domains) == 0:
-                return True
+            for domain in self.domains:
+                if len(domain.urls_to_visit) > 0:
+                    return False
+            return True
         elif self.terminate_cond == '4':
             if len(self.job_urls) >= self.termination_value:
                 return True
         return False
 
     def visit_domains(self, keywords):
-        while not self.terminated() and len(self.domains) > 0:
+        while not self.terminated():
+            found = False
+            for domain in self.domains:
+                if len(domain.urls_to_visit) > 0:
+                    found = True
+                    break
+            if not found:
+                break
             domain = self.domains.pop(0)
             self.visited_domains.update([domain])
             outside_urls = domain.visit_urls(keywords,self)
