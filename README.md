@@ -25,11 +25,3 @@ git add .
 git commit -m "Name the changes in your commit"
 git push origin your-branch-name
 ```
-
-
-### Testing
-
-To test code, run the following command:
-```
-python -m py.test -v
-```
